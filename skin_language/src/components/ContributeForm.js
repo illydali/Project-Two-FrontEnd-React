@@ -3,21 +3,14 @@ import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import TextField from '@mui/material/TextField'
-// import { makeStyles } from '@mui/material';
 
+export default function ContributeForm() {
 
-// const useStyles = makeStyles({
-//     field: {
-//         marginTop: 20,
-//         marginBottom: 20,
-//         display: 'block'
-//     }
-// })
-export default function AddPost(props) {
+    // handleClick() {
 
-
+    // }
     return (
-        <Container>
+        <Container maxWidth='sm'>
 
             <h1>Add new post</h1>
             <form noValidate autoComplete='off'>
