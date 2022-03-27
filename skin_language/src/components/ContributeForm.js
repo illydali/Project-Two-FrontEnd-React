@@ -1,8 +1,9 @@
 import React from 'react'
-import Button from '@mui/material/Button'
-import Container from '@mui/material/Container'
+import {Button, Container, TextField, Typography} from '@mui/material'
+
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
-import TextField from '@mui/material/TextField'
+import MyTheme from './MyTheme';
+import { ThemeProvider } from '@emotion/react';
 
 export default function ContributeForm() {
 
@@ -10,9 +11,10 @@ export default function ContributeForm() {
 
     // }
     return (
-        <Container maxWidth='sm'>
-
-            <h1>Add new post</h1>
+        <Container>
+            <ThemeProvider theme={MyTheme}>
+            <Typography 
+            sx={{padding: '1rem'}} variant='h2' component='h2' color='text.primary'>Contribute to our Collection</Typography>
             <form noValidate autoComplete='off'>
                 <TextField                    
                     variant='outlined'
@@ -33,12 +35,13 @@ export default function ContributeForm() {
                     variant="contained"
                     color="secondary"
                     endIcon={<DoubleArrowIcon />}
-                    type="submit"
+                    size="small"
+                    // type="submit"
                     onClick={() => console.log("you clicked")}
                 > Submit </Button>
             </form>
 
-
+            </ThemeProvider>
         </Container>
     )
 }

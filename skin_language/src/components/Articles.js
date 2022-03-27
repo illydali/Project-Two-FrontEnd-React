@@ -1,11 +1,11 @@
 import React from "react"
 import axios from "axios"
 import Listing from "./Listing"
-
-import { AppBar, Box, Toolbar, Typography, Button, Container, Tabs, Tab } from '@mui/material'
+import Home from './Home'
+import { AppBar, Box, Toolbar, Typography, Button, Grid } from '@mui/material'
 import MyTheme from './MyTheme.js'
 import ContributeForm from "./ContributeForm";
-import {  ThemeProvider } from "@emotion/react"
+import { ThemeProvider } from "@emotion/react"
 import RecipeReviewCard from "./Card"
 
 
@@ -14,7 +14,7 @@ export default class Articles extends React.Component {
     BASE_API_URL = "https://beauty-from-home.herokuapp.com";
 
     state = {
-        'active': 'listing',
+        'active': 'home',
         'data': []
     }
 
@@ -45,6 +45,12 @@ export default class Articles extends React.Component {
                     <ContributeForm />
                 </React.Fragment>
             );
+        } else if (this.state.active === 'home') {
+            return (
+                <React.Fragment>
+                    <Home />
+                </React.Fragment>
+            )
         }
     }
 
@@ -57,32 +63,37 @@ export default class Articles extends React.Component {
 
     render() {
         return (
-            <Container>
-                <ThemeProvider theme={MyTheme}>
-                    <Box sx={{ flexGrow: 1 }}>
-                        <AppBar color="primary" position="static">
-                            <Toolbar>
-                                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                                    {/* <Button 
-                                    // sx={{marginLeft:'auto'}}
-                                    color="inherit" onClick={() => this.setActive("listing")}>Browse</Button> */}
-                                    
-                                    <Tabs 
-                                    sx={{display:'flex', alignItems:'center'}}
-                                     textColor="text">
-                                    
-                                        <Tab label="Browse" onClick={() => this.setActive("listing")}>Browse</Tab>
-                                        <Tab label="Create" onClick={() => this.setActive("addpost")}>Create</Tab>
-                                        </Tabs>
-                                    
-                                </Typography>
-                            </Toolbar>
-                        </AppBar>
-                    </Box>
-                    {this.renderContent()}
-                <RecipeReviewCard/>
-                </ThemeProvider>
-            </Container>
+
+            <ThemeProvider theme={MyTheme}>
+                <Box sx={{ flexGrow: 1 }}>
+                    <AppBar color="primary" position="static">
+                        <Toolbar id='appBar'>
+
+                            {/* <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}> */}
+                            <Button
+                                // sx={{marginLeft:'auto'}}
+                                color="inherit" onClick={() => this.setActive("listing")}>Browse</Button>
+                            {/* fix logo and home button */}
+
+                            <Typography variant="h5" >
+                                <Button color="inherit" onClick={() => this.setActive("home")}>
+                                    BEAUTYHACKS
+                                </Button>
+                            </Typography>
+
+                            <Button
+                                
+                                color="inherit" onClick={() => this.setActive("addpost")}>Create</Button>
+                            {/* </Typography> */}
+
+                        </Toolbar>
+                    </AppBar>
+                </Box>
+                {this.renderContent()}
+
+                <RecipeReviewCard />
+            </ThemeProvider >
+
         )
 
     }
