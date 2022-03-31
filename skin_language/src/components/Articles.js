@@ -6,7 +6,7 @@ import { AppBar, Box, Toolbar, Typography, Button, Grid } from '@mui/material'
 import MyTheme from './MyTheme.js'
 import ContributeForm from "./ContributeForm";
 import { ThemeProvider } from "@emotion/react"
-import RecipeReviewCard from "./Card"
+
 
 
 
@@ -15,20 +15,54 @@ export default class Articles extends React.Component {
 
     state = {
         'active': 'home',
-        'data': []
+        'data': [],
+        'ingredients': [],
+
+        // search 
+        'search_title' : "",
+        'desc' : "",
+        'search_tags' : "",
+        'search_time' : "",
+        'searchItem': [],
+
+        // form
+        'user_name': "",
+        'title': "",
+        'email': "",
+        'description': "",
+        'image': "",
+        'ingredients_tag': "",
+        "body_tags": "",
+        'skin_concern': '',
+        'duration': "",
+        'instructions': "",
+    }
+
+    updateFormField = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
     }
 
     fetchData = async () => {
         let response = await axios.get(this.BASE_API_URL + "/articles")
-        console.log(response.data)
         this.setState({
             'data': response.data.article
         })
-        console.log(this.state.data)
+    }
+
+    fetchIngredients = async () => {
+        let response = await axios.get(this.BASE_API_URL + '/ingredients')
+
+        this.setState({
+            'ingredients': response.data.ingredients
+        })
+        console.log(response.data)
     }
 
     componentDidMount() {
         this.fetchData()
+        this.fetchIngredients()
     }
 
     renderContent() {
@@ -42,13 +76,37 @@ export default class Articles extends React.Component {
         } else if (this.state.active === "addpost") {
             return (
                 <React.Fragment>
-                    <ContributeForm />
+                    <ContributeForm
+                        setActive={this.setActive}
+                        title={this.state.title}
+                        email={this.state.email}
+                        description={this.state.description}
+                        image={this.state.image}
+                        duration={this.state.duration}
+                        body_tags={this.state.body_tags}
+                        instuctions={this.state.instructions}
+                        skin_concern={this.state.skin_concern}
+                        updateFormField={this.updateFormField}
+                        ingredients={this.state.ingredients}
+                        ingredients_tag={this.state.ingredients_tag} />
                 </React.Fragment>
             );
         } else if (this.state.active === 'home') {
             return (
                 <React.Fragment>
-                    <Home />
+                    <Home
+                        setActive={this.setActive}
+                        searchItem={this.state.searchItem}
+                        search_title={this.state.search_title}
+                        desc={this.state.desc}
+                        search_time={this.state.search_time}
+                        search_tags={this.state.search_tags}
+                        data={this.state.data}
+                        body_tags={this.body_tags}
+                        skin_concern={this.state.skin_concern}
+                        updateFormField={this.updateFormField}
+                        ingredients={this.state.ingredients}
+                        ingredients_tag={this.state.ingredients_tag} />
                 </React.Fragment>
             )
         }
@@ -59,6 +117,23 @@ export default class Articles extends React.Component {
             active: page
         });
     };
+
+    getSearch = async () => {
+
+        let queryString = ""
+
+        // search by title
+        if (this.state.search_title) {
+            queryString += `search_title=${this.state.search_title}`
+        }
+        
+        let searchResults = await axios.get(this.BASE_API_URL + "/articles/search?" + queryString)
+        
+        this.setState({
+            searchItem: searchResults.data
+        })
+    }
+
 
 
     render() {
@@ -82,7 +157,7 @@ export default class Articles extends React.Component {
                             </Typography>
 
                             <Button
-                                
+
                                 color="inherit" onClick={() => this.setActive("addpost")}>Create</Button>
                             {/* </Typography> */}
 
@@ -91,7 +166,7 @@ export default class Articles extends React.Component {
                 </Box>
                 {this.renderContent()}
 
-                <RecipeReviewCard />
+
             </ThemeProvider >
 
         )
