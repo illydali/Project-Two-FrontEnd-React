@@ -2,7 +2,7 @@ import React from 'react'
 import {
     Button, Container, TextField, Typography, FormControl, InputLabel,
     MenuItem, Select, Box, RadioGroup, FormLabel, FormControlLabel, Radio,
-    Divider
+    
 } from '@mui/material'
 
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
@@ -66,7 +66,7 @@ export default function ContributeForm(props) {
                         variant='outlined'
                         color='secondary'
                         fullWidth
-                        label='Image URL'
+                        label='Instructions'
                         name='instuctions'
                         value={props.instructions}
                         onChange={props.updateFormField}
@@ -114,8 +114,9 @@ export default function ContributeForm(props) {
                             color="secondary"
                             endIcon={<DoubleArrowIcon />}
                             size="small"
-                            // type="submit"
-                            onClick={() => console.log("you clicked")}
+                            type="submit"
+                            onClick={
+                                props.addContributeForm}
                         > Submit </Button>
                     </Box>
                 </FormControl>

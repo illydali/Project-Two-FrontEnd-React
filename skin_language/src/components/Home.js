@@ -1,4 +1,4 @@
-import {React, useState} from 'react'
+import { React } from 'react'
 import Collage from './Collage'
 import { Typography, Box, Container, FormControl, MenuItem, InputBase, Select, InputLabel } from '@mui/material'
 
@@ -44,7 +44,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
         },
     },
 }));
+
+
 export default function Home(props) {
+
     return (
         <Container>
             <Typography variant='h3' component='h1'>
@@ -72,32 +75,25 @@ export default function Home(props) {
                             onChange={props.updateFormField}
                         />
                     </SearchBar>
-                    <FormControl>
+                    <FormControl fullWidth>
                         <InputLabel id="select-filter">Select One</InputLabel>
                         <Select
                             labelId="select-filter"
-                            id="simple-select"
+                            id="filterSelect"
 
-                            value={props.search_tags ? props.search.tags: ""}
-                            name='search_tags'
-                            label="Search_tags"
+                            value={props.searchTags}
+                            name='searchTags'
+                            label="SearchTags"
                             onChange={props.updateFormField}
                         >
-                            {props.data.map(each => {
-                                return (
-                                    <Box key={each._id}>
-                                        {
-                                            each.body_tags.map((b, ind) =>
-                                                <MenuItem key={ind} value={b}>{b}</MenuItem>
-                                            )
-                                        }
-                                    </Box>
+                            {props.data.map(each =>
+                                each.body_tags.map((b, ind) => {
+                                    return (
+                                        <MenuItem key={ind} value={b}>{b}</MenuItem>
+                                    )
+                                }
                                 )
-
-
-                            }
                             )}
-
                         </Select>
                     </FormControl>
                 </Box>

@@ -19,10 +19,10 @@ export default class Articles extends React.Component {
         'ingredients': [],
 
         // search 
-        'search_title' : "",
-        'desc' : "",
-        'search_tags' : "",
-        'search_time' : "",
+        'searchTitle': "",
+        'desc': "",
+        'searchTags': [],
+        'searchTime': "",
         'searchItem': [],
 
         // form
@@ -42,6 +42,25 @@ export default class Articles extends React.Component {
         this.setState({
             [e.target.name]: e.target.value
         })
+    }
+
+    addContributeForm = async () => {
+        let formData = {
+            title: this.state.title,
+            email: this.state.email,
+            image: this.state.image,
+            description: this.state.description,
+            ingredients: this.ingredients_tag,
+            body_tags: this.state.body_tags,
+            skin_concern: this.skin_concern,
+            duration: this.state.duration,
+            // difficulty: this.state.new_difficulty,
+            instructions: this.state.instructions,
+           
+        }
+
+        let response = await axios.post(this.BASE_API_URL + "/article", formData)
+        console.log(response)
     }
 
     fetchData = async () => {
@@ -88,7 +107,8 @@ export default class Articles extends React.Component {
                         skin_concern={this.state.skin_concern}
                         updateFormField={this.updateFormField}
                         ingredients={this.state.ingredients}
-                        ingredients_tag={this.state.ingredients_tag} />
+                        ingredients_tag={this.state.ingredients_tag}
+                        addContributeForm={this.addContributeForm} />
                 </React.Fragment>
             );
         } else if (this.state.active === 'home') {
@@ -97,10 +117,10 @@ export default class Articles extends React.Component {
                     <Home
                         setActive={this.setActive}
                         searchItem={this.state.searchItem}
-                        search_title={this.state.search_title}
+                        search_title={this.state.searchTitle}
                         desc={this.state.desc}
-                        search_time={this.state.search_time}
-                        search_tags={this.state.search_tags}
+                        searchTime={this.state.searchTime}
+                        searchTags={this.state.searchTags}
                         data={this.state.data}
                         body_tags={this.body_tags}
                         skin_concern={this.state.skin_concern}
@@ -126,9 +146,9 @@ export default class Articles extends React.Component {
         if (this.state.search_title) {
             queryString += `search_title=${this.state.search_title}`
         }
-        
+       
         let searchResults = await axios.get(this.BASE_API_URL + "/articles/search?" + queryString)
-        
+
         this.setState({
             searchItem: searchResults.data
         })
