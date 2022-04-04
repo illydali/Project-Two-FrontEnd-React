@@ -1,6 +1,6 @@
 import React from 'react'
 import { Container, Typography, Box, Card, CardHeader, CardMedia, CardContent, Divider} from '@mui/material'
-import RecipeReviewCard from './Card.js'
+
 export default function Listing(props) {
     return (
         <React.Fragment>
@@ -31,7 +31,7 @@ export default function Listing(props) {
                                         <Typography variant='body1' color='text.primary' component='p'>
                                             The Why: {each.description}
                                             <br />
-                                            Difficulty: {each.difficulty}
+                                            Difficulty: {each.description}
                                             <br />
                                             Time: {each.duration}
 

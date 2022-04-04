@@ -1,6 +1,7 @@
 import React from "react"
 import axios from "axios"
 import Listing from "./Listing"
+import BottomNav from './BottomNav'
 import Home from './Home'
 import { AppBar, Box, Toolbar, Typography, Button, Grid } from '@mui/material'
 import MyTheme from './MyTheme.js'
@@ -15,27 +16,31 @@ export default class Articles extends React.Component {
 
     state = {
         'active': 'home',
+        'loaded' : false,
         'data': [],
         'ingredients': [],
 
         // search 
-        'searchTitle': "",
-        'desc': "",
-        'searchTags': [],
-        'searchTime': "",
-        'searchItem': [],
+        'title': "",
+        // 'desc': "",
+        'description': '',
+        'body_tags': "",
+        'duration': '',
+        'searchItem' : [],
+        'displaySearch' : false,
 
         // form
-        'user_name': "",
-        'title': "",
-        'email': "",
-        'description': "",
-        'image': "",
-        'ingredients_tag': "",
-        "body_tags": "",
-        'skin_concern': '',
-        'duration': "",
-        'instructions': "",
+        // 'user_name': "",
+        // 'title': "",
+        // 'email': "",
+        // 'description': "",
+        // 'image': "",
+        // 'ingredients_tag': "",
+        // 'quantity': "",
+        // "body_tags": "",
+        // 'skin_concern': '',
+        // 'duration': "",
+        // 'instructions': [],
     }
 
     updateFormField = (e) => {
@@ -54,9 +59,10 @@ export default class Articles extends React.Component {
             body_tags: this.state.body_tags,
             skin_concern: this.skin_concern,
             duration: this.state.duration,
+            quantity: this.state.quantity,
             // difficulty: this.state.new_difficulty,
             instructions: this.state.instructions,
-           
+
         }
 
         let response = await axios.post(this.BASE_API_URL + "/article", formData)
@@ -76,7 +82,6 @@ export default class Articles extends React.Component {
         this.setState({
             'ingredients': response.data.ingredients
         })
-        console.log(response.data)
     }
 
     componentDidMount() {
@@ -116,17 +121,20 @@ export default class Articles extends React.Component {
                 <React.Fragment>
                     <Home
                         setActive={this.setActive}
-                        searchItem={this.state.searchItem}
-                        search_title={this.state.searchTitle}
-                        desc={this.state.desc}
-                        searchTime={this.state.searchTime}
-                        searchTags={this.state.searchTags}
-                        data={this.state.data}
-                        body_tags={this.body_tags}
+                        title={this.state.title}
+                        description={this.state.description}
+                        duration={this.state.duration}
+                        body_tags={this.state.body_tags}
                         skin_concern={this.state.skin_concern}
+                        data={this.state.data}
                         updateFormField={this.updateFormField}
                         ingredients={this.state.ingredients}
-                        ingredients_tag={this.state.ingredients_tag} />
+                        ingredients_tag={this.state.ingredients_tag}
+                        searchItem={this.state.searchItem}
+                        getSearch={this.getSearch} 
+                        renderSearchResults={this.renderSearchResults}
+                        displaySearch={this.state.displaySearch}
+                        />
                 </React.Fragment>
             )
         }
@@ -138,23 +146,42 @@ export default class Articles extends React.Component {
         });
     };
 
-    getSearch = async () => {
+    // filterSearch(data, searchItem) {
+    //     const result = data.filter(
+    //         (data) => 
+    //         data.title.toLowerCase().includes(searchItem)) ||
+    //         data.description.toLowerCase().includes(searchItem) ||
+    //         data.ingredients.toLowerCase().includes(searchItem)
+    //     this.setState({
+    //         searchItem: result
+    //     })
 
-        let queryString = ""
+    // }
 
-        // search by title
-        if (this.state.search_title) {
-            queryString += `search_title=${this.state.search_title}`
-        }
-       
-        let searchResults = await axios.get(this.BASE_API_URL + "/articles/search?" + queryString)
+    getSearch = async (e) => {
+        // let searchItem = []
 
-        this.setState({
-            searchItem: searchResults.data
+        // await axios.get(this.BASE_API_URL + '/articles/search').then((res) => {
+        //     if (res.data.success) {
+        //         this.filterContent(res.data.posts, searchItem)
+        //     }
+        // })
+        let search = await axios.get(this.BASE_API_URL + "/articles/search", {
+            params: {
+                'title': this.state.title,
+                'description': this.state.description,
+                'body_tags': this.state.body_tags,
+                'duration': this.state.duration
+            }
         })
+        this.setState({
+            'searchItem': search.data,
+            'displaySearch' : true
+
+        })
+        // console.log(search)
+        console.log(search)
     }
-
-
 
     render() {
         return (
@@ -185,10 +212,11 @@ export default class Articles extends React.Component {
                     </AppBar>
                 </Box>
                 {this.renderContent()}
-
+                {/* {this.renderSearchResults()} */}
+                <BottomNav />
 
             </ThemeProvider >
-
+       
         )
 
     }

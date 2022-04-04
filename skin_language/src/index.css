@@ -8,3 +8,9 @@
   justify-content:  space-between;
   align-items: center;
 }
+
+@media (max-width: 700px) {
+  .appBar {
+    padding-top: 70px;
+  }
+}
