@@ -154,21 +154,9 @@ export default function Home(props) {
                     onClick={props.getSearch}>
                     Search
                 </Button>
-                <Typography>
+                <Typography color='text.primary'>
                     Search Results
                 </Typography>
-
-
-                {/* {props.displaySearch ?
-
-                        <h1> Loading.. </h1> :
-                        <div>
-                            {props.searchItem.map((e) => {
-                                return (
-                                    <h1>{e.title}</h1>
-                                )
-                            })}
-                        </div>} */}
                 {renderSearchResults()}
 
             </Container >

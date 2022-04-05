@@ -46,7 +46,13 @@ export default function Listing(props) {
 
                                         </Typography>
                                         <CardActions>
-                                            <Button size="small" onClick={() => {props.viewArticle(each._id)}}>Learn More</Button>
+                                            <Button 
+                                            size="small" 
+                                            onClick={() => {
+                                                props.viewArticle(each._id)
+                                                props.viewComments(each._id)}
+                                                }>
+                                                    Learn More</Button>
                                         </CardActions>
                                     </CardContent>
 

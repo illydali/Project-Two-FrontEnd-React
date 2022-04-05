@@ -20,7 +20,7 @@ export default function ContributeForm(props) {
 
             <ThemeProvider theme={MyTheme}>
                 <Typography
-                    sx={{ padding: '1rem' }} variant='h2' component='h2' color='text.primary'>Contribute to our Collection</Typography>
+                    sx={{ padding: '1rem' }} variant='h4' component='h1' color='text.primary'>Contribute to our Collection</Typography>
                 <FormControl noValidate autoComplete='off' fullWidth>
                     <TextField
                         variant='outlined'
@@ -68,7 +68,7 @@ export default function ContributeForm(props) {
                         color='secondary'
                         fullWidth
                         label='Instructions'
-                        name='form_instuctions'
+                        name='form_instructions'
                         value={props.form_instructions}
                         onChange={props.updateFormField}
                     />
@@ -99,8 +99,9 @@ export default function ContributeForm(props) {
                             name='form_ingredients'
                             value={props.form_ingredients}
                             onChange={props.updateFormField}
+                            helperText='Separate by commas'
                         />
-                        <TextField
+                        {/* <TextField
                             variant='outlined'
                             color='secondary'
                             fullWidth
@@ -108,7 +109,7 @@ export default function ContributeForm(props) {
                             name='form_quantity'
                             value={props.form_quantity}
                             onChange={props.updateFormField}
-                        />
+                        /> */}
                     </FormControl>
 
                     <br />
@@ -130,11 +131,11 @@ export default function ContributeForm(props) {
          
                     
                 <br />
-                <FormLabel id="Duration" htmlFor='Duration'>How long? </FormLabel>
+                <FormLabel id="Duration" htmlFor='Duration'>Select Duration</FormLabel>
                     <Select
                         aria-labelledby="Duration"
                         onChange={props.updateFormField}
-                        // defaultValue="sensitive"
+                        defaultValue="sensitive"
                         name="form_duration" 
                         value={props.form_duration ? props.form_duration : ""}
 
@@ -148,7 +149,7 @@ export default function ContributeForm(props) {
                         variant='outlined'
                         color='secondary'
                         fullWidth
-                        label='body_tags'
+                        label='Which part is this for?'
                         name='form_body_tags'
                         value={props.body_tags}
                         onChange={props.updateFormField}

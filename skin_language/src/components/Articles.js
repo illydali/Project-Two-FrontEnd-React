@@ -8,13 +8,14 @@ import MyTheme from './MyTheme.js'
 import ContributeForm from "./ContributeForm";
 import { ThemeProvider } from "@emotion/react"
 import ArticleInfo from "./ArticleInfo"
+import EditArticle from "./EditArticle"
 
 
 
 
 export default class Articles extends React.Component {
-    BASE_API_URL = "https://beauty-from-home.herokuapp.com";
-    // BASE_API_URL = "https://3000-illydali-projecttwoexpre-w0e88ixe9ed.ws-us38.gitpod.io"
+    // BASE_API_URL = "https://beauty-from-home.herokuapp.com";
+    BASE_API_URL = "https://3000-illydali-projecttwoexpre-w0e88ixe9ed.ws-us38.gitpod.io"
 
     state = {
         'active': 'home',
@@ -23,6 +24,7 @@ export default class Articles extends React.Component {
         'ingredients': [],
         'displayMore': false,
         'articleInfo': [],
+        'commentsData': [],
 
         // search 
         'title': "",
@@ -39,11 +41,16 @@ export default class Articles extends React.Component {
         'form_description': "",
         'form_image': "",
         'form_ingredients_tag': "",
+        'form_ingredients': '',
         'form_quantity': "",
         "form_body_tags": "",
         'form_skin_concern': '',
         'form_duration': "",
-        'form_instructions': [],
+        'form_instructions': '',
+        'articleIdBeingEdited': ''
+
+        // form edit 
+
     }
 
     updateFormField = (e) => {
@@ -58,18 +65,19 @@ export default class Articles extends React.Component {
             email: this.state.form_email,
             image: this.state.form_image,
             description: this.state.form_description,
-            ingredients: this.state.form_ingredients_tag,
+            ingredients: this.state.form_ingredients,
             body_tags: this.state.form_body_tags,
             skin_concern: this.form_skin_concern,
             duration: this.state.form_duration,
-            quantity: this.state.form_quantity,
-            // difficulty: this.state.new_difficulty,
             instructions: this.state.form_instructions,
 
         }
 
         let response = await axios.post(this.BASE_API_URL + "/article", formData)
         console.log(response.data)
+        this.setState({
+            'active': 'listing',
+        })
     }
 
     fetchData = async () => {
@@ -98,8 +106,9 @@ export default class Articles extends React.Component {
                 <React.Fragment>
                     <Listing
                         allData={this.state.allData}
-                        articleInfo={this.state.articleInfo} 
-                        // displayMore={this.state.displayMore}
+                        articleInfo={this.state.articleInfo}
+                        commentsData={this.state.commentsData}
+                        viewComments={this.viewComments}
                         viewArticle={this.viewArticle}
                     />
                 </React.Fragment>
@@ -145,13 +154,39 @@ export default class Articles extends React.Component {
                     />
                 </React.Fragment>
             );
-        } else if (this.state.active === 'view') {
+        } if (this.state.active === 'view') {
             return (
                 <React.Fragment>
                     <ArticleInfo
                         setActive={this.setActive}
-                        articleInfo={this.state.articleInfo} 
-                        />
+                        articleInfo={this.state.articleInfo}
+                        commentsData={this.state.commentsData}
+                        handleDelete={this.handleDelete}
+                        editArticle={this.editArticle}
+                        
+                    />
+                </React.Fragment>
+            )
+
+        } if (this.state.active === 'edit') {
+            return (
+                <React.Fragment>
+                    <EditArticle
+                        setActive={this.setActive}
+                        articleInfo={this.state.articleInfo}
+                        title={this.state.form_title}
+                        email={this.state.form_email}
+                        description={this.state.form_description}
+                        image={this.state.form_image}
+                        duration={this.state.form_duration}
+                        body_tags={this.state.form_body_tags}
+                        instuctions={this.state.form_instructions}
+                        skin_concern={this.state.form_skin_concern}
+                        updateFormField={this.updateFormField}
+                        ingredients={this.state.ingredients}
+                        articleIdBeingEdited={this.state.articleIdBeingEdited}
+                        updateArticle={this.updateArticle}
+                    />
                 </React.Fragment>
             )
 
@@ -161,7 +196,7 @@ export default class Articles extends React.Component {
     setActive = (page) => {
         this.setState({
             'active': page,
-            'displayMore' : false,
+            'displayMore': false,
         });
     };
 
@@ -200,7 +235,7 @@ export default class Articles extends React.Component {
         })
         console.log(search)
     }
-   
+
     viewArticle = async (id) => {
 
         let articleId = id
@@ -210,7 +245,24 @@ export default class Articles extends React.Component {
         this.setState({
             'articleInfo': results.data,
             'displayMore': true,
-            'active' : 'view'
+            'active': 'view'
+        })
+    }
+
+    viewComments = async (id) => {
+        let articleId = id
+        let comments = await axios.get(this.BASE_API_URL + '/article/' + articleId + '/comments')
+
+        let commentsData = []
+        if (comments.data[0].comments) {
+            commentsData = comments.data[0].comments
+        } else {
+            commentsData = []
+        }
+
+        console.log(commentsData)
+        this.setState({
+            'commentsData': commentsData,
         })
     }
 
@@ -218,15 +270,54 @@ export default class Articles extends React.Component {
 
     }
 
-    // handleDelete = async (id) => {
+    editArticle = async () => {
+        let idToEdit = this.state.articleInfo[0]
+        console.log(idToEdit._id)
+        this.setState({
+            'active': 'edit',
 
 
-    //     await axios.delete(this.BASE_API_URL + '/article/', id{
-    //         method: 'DELETE'
-    //     })
+            'form_title': idToEdit.form_title,
+            'form_email': idToEdit.email,
+            'form_description': idToEdit.description,
+            'form_image': idToEdit.image,
+            'form_duration': idToEdit.duration,
+            'form_instructions': idToEdit.instructions,
+            'articleIdBeingEdited': idToEdit._id
 
-    //     const newPosts = posts.filter(post => post.id != id)
-    // }
+        })
+
+    }
+
+    updateArticle = async () => {
+        let newData = {
+            title : this.state.form_title,
+            image : this.state.form_image,
+            description : this.state.form_description,
+            instructions : this.state.form_instructions,
+            duration : this.state.form_duration
+        }
+
+        let articleIdBeingEdited = this.state.articleIdBeingEdited
+        console.log(articleIdBeingEdited)
+        let update = await axios.put(this.BASE_API_URL + '/article/' + articleIdBeingEdited, newData)
+        console.log(update.data)
+
+        this.setState({
+            'active': 'listing'
+        })
+
+    }
+
+    handleDelete = async () => {
+        let idToDelete = this.state.articleInfo[0]._id
+        await axios.delete(this.BASE_API_URL + '/article/' + idToDelete)
+        this.fetchData()
+        this.setState({
+            'active': "listing",
+
+        })
+    }
 
     render() {
         return (
@@ -256,9 +347,9 @@ export default class Articles extends React.Component {
                         </Toolbar>
                     </AppBar>
                 </Box>
-                
+
                 {this.renderContent()}
-                
+
                 {/* <BottomNav /> */}
 
             </ThemeProvider >
