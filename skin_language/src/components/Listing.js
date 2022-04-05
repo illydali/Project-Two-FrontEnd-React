@@ -1,7 +1,11 @@
 import React from 'react'
-import { Container, Typography, Box, Card, CardHeader, CardMedia, CardContent, Divider} from '@mui/material'
+import { Container, Typography, Box, Card, CardHeader, CardMedia, CardContent,
+CardActions, Button } from '@mui/material'
+
+import IconButton from '@mui/material/IconButton'
 
 export default function Listing(props) {
+
     return (
         <React.Fragment>
             <Container>
@@ -13,7 +17,7 @@ export default function Listing(props) {
 
 
                 {
-                    props.data.map(
+                    props.allData.map(
                         each => {
                             return (
                                 <Card key={each._id}>
@@ -21,34 +25,29 @@ export default function Listing(props) {
                                         component="h1"
                                         title={
                                             each.title}
-                                        date={each.date} />
+                                        date={each.date}
+                                        action={
+                                            <IconButton aria-label="delete">
+                                                
+                                            </IconButton>
+                                        }
+                                    />
                                     <CardMedia
                                         component='img'
                                         height='194'
                                         image={each.image}
-                                        alt='Honey and Coconut Oil' />
+                                        alt={each.title} />
                                     <CardContent>
                                         <Typography variant='body1' color='text.primary' component='p'>
                                             The Why: {each.description}
                                             <br />
-                                            Difficulty: {each.description}
                                             <br />
                                             Time: {each.duration}
 
                                         </Typography>
-                                        <Divider color='secondary'> Instructions </Divider>
-                                        {
-                                            each.instructions.map((i, ind) =>
-                                                <Box sx={{
-                                                    padding:'1rem',
-                                                    
-                                                }}
-                                                key={ind}>
-                                                    <Typography variant='body2' component='p' >
-                                                        <span>{i} </span>
-                                                    </Typography>
-                                                </Box>
-                                            )}
+                                        <CardActions>
+                                            <Button size="small" onClick={() => {props.viewArticle(each._id)}}>Learn More</Button>
+                                        </CardActions>
                                     </CardContent>
 
                                 </Card>

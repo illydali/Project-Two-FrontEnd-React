@@ -7,40 +7,43 @@ import { AppBar, Box, Toolbar, Typography, Button, Grid } from '@mui/material'
 import MyTheme from './MyTheme.js'
 import ContributeForm from "./ContributeForm";
 import { ThemeProvider } from "@emotion/react"
+import ArticleInfo from "./ArticleInfo"
 
 
 
 
 export default class Articles extends React.Component {
     BASE_API_URL = "https://beauty-from-home.herokuapp.com";
+    // BASE_API_URL = "https://3000-illydali-projecttwoexpre-w0e88ixe9ed.ws-us38.gitpod.io"
 
     state = {
         'active': 'home',
-        'loaded' : false,
-        'data': [],
+        'loaded': false,
+        'allData': [],
         'ingredients': [],
+        'displayMore': false,
+        'articleInfo': [],
 
         // search 
         'title': "",
-        // 'desc': "",
         'description': '',
         'body_tags': "",
         'duration': '',
-        'searchItem' : [],
-        'displaySearch' : false,
+        'searchItem': [],
+        'displaySearch': false,
 
         // form
-        // 'user_name': "",
-        // 'title': "",
-        // 'email': "",
-        // 'description': "",
-        // 'image': "",
-        // 'ingredients_tag': "",
-        // 'quantity': "",
-        // "body_tags": "",
-        // 'skin_concern': '',
-        // 'duration': "",
-        // 'instructions': [],
+        'form_user_name': "",
+        'form_title': "",
+        'form_email': "",
+        'form_description': "",
+        'form_image': "",
+        'form_ingredients_tag': "",
+        'form_quantity': "",
+        "form_body_tags": "",
+        'form_skin_concern': '',
+        'form_duration': "",
+        'form_instructions': [],
     }
 
     updateFormField = (e) => {
@@ -51,28 +54,28 @@ export default class Articles extends React.Component {
 
     addContributeForm = async () => {
         let formData = {
-            title: this.state.title,
-            email: this.state.email,
-            image: this.state.image,
-            description: this.state.description,
-            ingredients: this.ingredients_tag,
-            body_tags: this.state.body_tags,
-            skin_concern: this.skin_concern,
-            duration: this.state.duration,
-            quantity: this.state.quantity,
+            title: this.state.form_title,
+            email: this.state.form_email,
+            image: this.state.form_image,
+            description: this.state.form_description,
+            ingredients: this.state.form_ingredients_tag,
+            body_tags: this.state.form_body_tags,
+            skin_concern: this.form_skin_concern,
+            duration: this.state.form_duration,
+            quantity: this.state.form_quantity,
             // difficulty: this.state.new_difficulty,
-            instructions: this.state.instructions,
+            instructions: this.state.form_instructions,
 
         }
 
         let response = await axios.post(this.BASE_API_URL + "/article", formData)
-        console.log(response)
+        console.log(response.data)
     }
 
     fetchData = async () => {
         let response = await axios.get(this.BASE_API_URL + "/articles")
         this.setState({
-            'data': response.data.article
+            'allData': response.data.article
         })
     }
 
@@ -93,30 +96,35 @@ export default class Articles extends React.Component {
         if (this.state.active === "listing") {
             return (
                 <React.Fragment>
-                    <Listing data={this.state.data} />
+                    <Listing
+                        allData={this.state.allData}
+                        articleInfo={this.state.articleInfo} 
+                        // displayMore={this.state.displayMore}
+                        viewArticle={this.viewArticle}
+                    />
                 </React.Fragment>
 
             );
-        } else if (this.state.active === "addpost") {
+        } if (this.state.active === "addpost") {
             return (
                 <React.Fragment>
                     <ContributeForm
                         setActive={this.setActive}
-                        title={this.state.title}
-                        email={this.state.email}
-                        description={this.state.description}
-                        image={this.state.image}
-                        duration={this.state.duration}
-                        body_tags={this.state.body_tags}
-                        instuctions={this.state.instructions}
-                        skin_concern={this.state.skin_concern}
+                        title={this.state.form_title}
+                        email={this.state.form_email}
+                        description={this.state.form_description}
+                        image={this.state.form_image}
+                        duration={this.state.form_duration}
+                        body_tags={this.state.form_body_tags}
+                        instuctions={this.state.form_instructions}
+                        skin_concern={this.state.form_skin_concern}
                         updateFormField={this.updateFormField}
                         ingredients={this.state.ingredients}
-                        ingredients_tag={this.state.ingredients_tag}
+                        ingredients_tag={this.state.form_ingredients_tag}
                         addContributeForm={this.addContributeForm} />
                 </React.Fragment>
             );
-        } else if (this.state.active === 'home') {
+        } if (this.state.active === 'home') {
             return (
                 <React.Fragment>
                     <Home
@@ -126,23 +134,34 @@ export default class Articles extends React.Component {
                         duration={this.state.duration}
                         body_tags={this.state.body_tags}
                         skin_concern={this.state.skin_concern}
-                        data={this.state.data}
+                        allData={this.state.allData}
                         updateFormField={this.updateFormField}
                         ingredients={this.state.ingredients}
                         ingredients_tag={this.state.ingredients_tag}
                         searchItem={this.state.searchItem}
-                        getSearch={this.getSearch} 
-                        renderSearchResults={this.renderSearchResults}
+                        getSearch={this.getSearch}
+                        handleCheckbox={this.handleCheckbox}
                         displaySearch={this.state.displaySearch}
+                    />
+                </React.Fragment>
+            );
+        } else if (this.state.active === 'view') {
+            return (
+                <React.Fragment>
+                    <ArticleInfo
+                        setActive={this.setActive}
+                        articleInfo={this.state.articleInfo} 
                         />
                 </React.Fragment>
             )
+
         }
     }
 
     setActive = (page) => {
         this.setState({
-            active: page
+            'active': page,
+            'displayMore' : false,
         });
     };
 
@@ -176,12 +195,38 @@ export default class Articles extends React.Component {
         })
         this.setState({
             'searchItem': search.data,
-            'displaySearch' : true
+            'displaySearch': true
 
         })
-        // console.log(search)
         console.log(search)
     }
+   
+    viewArticle = async (id) => {
+
+        let articleId = id
+        let results = await axios.get(this.BASE_API_URL + "/article/" + articleId)
+        console.log(results.data)
+
+        this.setState({
+            'articleInfo': results.data,
+            'displayMore': true,
+            'active' : 'view'
+        })
+    }
+
+    handleCheckbox = (e) => {
+
+    }
+
+    // handleDelete = async (id) => {
+
+
+    //     await axios.delete(this.BASE_API_URL + '/article/', id{
+    //         method: 'DELETE'
+    //     })
+
+    //     const newPosts = posts.filter(post => post.id != id)
+    // }
 
     render() {
         return (
@@ -211,12 +256,13 @@ export default class Articles extends React.Component {
                         </Toolbar>
                     </AppBar>
                 </Box>
+                
                 {this.renderContent()}
-                {/* {this.renderSearchResults()} */}
-                <BottomNav />
+                
+                {/* <BottomNav /> */}
 
             </ThemeProvider >
-       
+
         )
 
     }

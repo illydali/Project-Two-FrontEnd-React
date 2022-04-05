@@ -2,22 +2,58 @@ import { React } from 'react'
 import Collage from './Collage'
 import {
     Typography, Box, Container, FormControl, MenuItem, Select, InputLabel, TextField, Button,
-    FormLabel, Radio, RadioGroup, FormControlLabel
+    FormLabel, Radio, RadioGroup, FormControlLabel, Card, CardHeader, CardMedia, CardContent,
+    Divider, FormGroup, Checkbox
 } from '@mui/material'
 
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 
 export default function Home(props) {
-
+   
     function renderSearchResults() {
         if (props.searchItem) {
             return <div>
                 {props.searchItem.map((e) => {
-                                return (
-                                    <h1>{e.title}</h1>
-                                )
-                            })}
+                    return (
+                        <Card key={e._id}>
+                            <CardHeader
+                                component="h1"
+                                title={
+                                    e.title}
+                                date={e.date} />
+                            <CardMedia
+                                component='img'
+                                height='194'
+                                image={e.image}
+                                alt='Honey and Coconut Oil' />
+                            <CardContent>
+                                <Typography variant='body1' color='text.primary' component='p'>
+                                    The Why: {e.description}
+                                    <br />
+                                    Difficulty: {e.description}
+                                    <br />
+                                    Time: {e.duration}
+
+                                </Typography>
+                                <Divider color='secondary'> Instructions </Divider>
+                                {
+                                    e.instructions.map((i, ind) =>
+                                        <Box sx={{
+                                            padding: '1rem',
+
+                                        }}
+                                            key={ind}>
+                                            <Typography variant='body2' component='p' >
+                                                <span>{i} </span>
+                                            </Typography>
+                                        </Box>
+                                    )}
+                            </CardContent>
+
+                        </Card>
+                    )
+                })}
             </div>
         } else {
             return (
@@ -72,7 +108,7 @@ export default function Home(props) {
                                 onChange={props.updateFormField}
                             // onChange={props.getSearch}
                             >
-                                {props.data.map(each =>
+                                {props.allData.map(each =>
                                     each.body_tags.map((b, ind) => {
                                         return (
                                             <MenuItem key={ind} value={b}>{b}</MenuItem>
@@ -82,6 +118,18 @@ export default function Home(props) {
                                 )}
                             </Select>
                         </FormControl>
+    {/* */}
+                        {/* <form
+                            aria-labelledby="select-duration"
+                            onChange={handleChange}
+                            checked={checked}
+                            name="body_tags"
+                            value={props.body_tags}>
+
+                            <FormControlLabel value='face' control={<Checkbox />} label="Face" />
+                            <FormControlLabel value='eyes' control={<Checkbox />} label="Eyes" />
+                            <FormControlLabel value='lips' control={<Checkbox />} label="Lips" />
+                        </form> */}
                         <FormLabel id="skin_concern">Skin Type</FormLabel>
                         <RadioGroup
                             aria-labelledby="select-duration"
@@ -109,9 +157,9 @@ export default function Home(props) {
                 <Typography>
                     Search Results
                 </Typography>
-                                    
-                    
-                    {/* {props.displaySearch ?
+
+
+                {/* {props.displaySearch ?
 
                         <h1> Loading.. </h1> :
                         <div>
@@ -121,7 +169,7 @@ export default function Home(props) {
                                 )
                             })}
                         </div>} */}
-                        {renderSearchResults()}
+                {renderSearchResults()}
 
             </Container >
         </>

@@ -28,8 +28,8 @@ export default function ContributeForm(props) {
                         fullWidth
                         required
                         label='Title'
-                        name='title'
-                        value={props.title}
+                        name='form_title'
+                        value={props.form_title}
                         onChange={props.updateFormField}
                     />
                     <br />
@@ -38,8 +38,8 @@ export default function ContributeForm(props) {
                         color='secondary'
                         fullWidth
                         label='Email'
-                        name='email'
-                        value={props.email}
+                        name='form_email'
+                        value={props.form_email}
                         onChange={props.updateFormField}
                     />
                     <br />
@@ -48,8 +48,8 @@ export default function ContributeForm(props) {
                         color='secondary'
                         fullWidth
                         label='Description'
-                        name='description'
-                        value={props.description}
+                        name='form_description'
+                        value={props.form_description}
                         onChange={props.updateFormField}
                     />
                     <br />
@@ -58,8 +58,8 @@ export default function ContributeForm(props) {
                         color='secondary'
                         fullWidth
                         label='Image URL'
-                        name='image'
-                        value={props.image}
+                        name='form_image'
+                        value={props.form_image}
                         onChange={props.updateFormField}
                     />
                     <br />
@@ -68,14 +68,14 @@ export default function ContributeForm(props) {
                         color='secondary'
                         fullWidth
                         label='Instructions'
-                        name='instuctions'
-                        value={props.instructions}
+                        name='form_instuctions'
+                        value={props.form_instructions}
                         onChange={props.updateFormField}
                     />
                     <br />
 
-                    <Box sx={{ flexDirection: "row" }} >
-                        <InputLabel id="select-label" select>Ingredients</InputLabel>
+                    <FormControl  >
+                        {/* <InputLabel id="select-label" select>Ingredients</InputLabel>
                         <Select
                             labelId="select-label"
                             id="simple-select"
@@ -90,27 +90,36 @@ export default function ContributeForm(props) {
 
                             ))}
 
-                        </Select>
+                        </Select> */}
+                        <TextField
+                            variant='outlined'
+                            color='secondary'
+                            fullWidth
+                            label='Ingredients'
+                            name='form_ingredients'
+                            value={props.form_ingredients}
+                            onChange={props.updateFormField}
+                        />
                         <TextField
                             variant='outlined'
                             color='secondary'
                             fullWidth
                             label='Quantity'
-                            name='quantity'
-                            value={props.quantity}
+                            name='form_quantity'
+                            value={props.form_quantity}
                             onChange={props.updateFormField}
                         />
-                    </Box>
+                    </FormControl>
 
                     <br />
-                    {/* <FormControl> */}
+                  
                     <FormLabel id="skin_concern">Skin Type</FormLabel>
                     <RadioGroup
                         aria-labelledby="skin_concern"
                         onChange={props.updateFormField}
                         // defaultValue="sensitive"
-                        name="skin_concern"
-                        value={props.skin_concern}
+                        name="form_skin_concern"
+                        value={props.form_skin_concern}
 
                     >
                         <FormControlLabel color="secondary" value="dry" control={<Radio />} label="Dry" />
@@ -118,24 +127,48 @@ export default function ContributeForm(props) {
                         <FormControlLabel color="secondary" value="sensitive" control={<Radio />} label="Sensitive" />
                         <FormControlLabel color="secondary" value="acne" control={<Radio />} label="Acne" />
                     </RadioGroup>
-                    {/* </FormControl> */}
-                    <br />
-                    <Box>
-                        <Button
-                            variant="contained"
-                            color="secondary"
-                            endIcon={<DoubleArrowIcon />}
-                            size="small"
-                            type="submit"
-                            onClick={
-                                props.addContributeForm}
-                        > Submit </Button>
-                    </Box>
-                </FormControl>
+         
+                    
+                <br />
+                <FormLabel id="Duration" htmlFor='Duration'>How long? </FormLabel>
+                    <Select
+                        aria-labelledby="Duration"
+                        onChange={props.updateFormField}
+                        // defaultValue="sensitive"
+                        name="form_duration" 
+                        value={props.form_duration ? props.form_duration : ""}
 
-            </ThemeProvider>
+                    >
+                        <MenuItem color="secondary" value="10mins or less"  label="10mins or less" > 10 Mins or Less </MenuItem>
+                        <MenuItem color="secondary" value="10mins to 20mins"  label="10mins to 20mins" > Between 10 to 20 Mins </MenuItem>
+                        <MenuItem color="secondary" value="20mins and above"  label="20mins and above" > 20 Mins and Above </MenuItem>
+                        
+                    </Select>
+                    <TextField
+                        variant='outlined'
+                        color='secondary'
+                        fullWidth
+                        label='body_tags'
+                        name='form_body_tags'
+                        value={props.body_tags}
+                        onChange={props.updateFormField}
+                    />
+                <Box>
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        endIcon={<DoubleArrowIcon />}
+                        size="small"
+                        type="submit"
+                        onClick={
+                            props.addContributeForm}
+                    > Submit </Button>
+                </Box>
+            </FormControl>
 
-        </Container>
+        </ThemeProvider>
+
+        </Container >
 
     )
 }
