@@ -12,9 +12,6 @@ import { ThemeProvider } from '@emotion/react';
 
 export default function ContributeForm(props) {
 
-    // handleClick() {
-
-    // }
     return (
         <Container>
 
@@ -135,14 +132,14 @@ export default function ContributeForm(props) {
                     <Select
                         aria-labelledby="Duration"
                         onChange={props.updateFormField}
-                        defaultValue="sensitive"
+                        defaultValue=''
                         name="form_duration" 
                         value={props.form_duration ? props.form_duration : ""}
 
                     >
-                        <MenuItem color="secondary" value="10mins or less"  label="10mins or less" > 10 Mins or Less </MenuItem>
-                        <MenuItem color="secondary" value="10mins to 20mins"  label="10mins to 20mins" > Between 10 to 20 Mins </MenuItem>
-                        <MenuItem color="secondary" value="20mins and above"  label="20mins and above" > 20 Mins and Above </MenuItem>
+                        <MenuItem color="secondary" value=""  label="10mins or less" > 10 Mins or Less </MenuItem>
+                        <MenuItem color="secondary" value=""  label="10mins to 20mins" > Between 10 to 20 Mins </MenuItem>
+                        <MenuItem color="secondary" value=""  label="20mins and above" > 20 Mins and Above </MenuItem>
                         
                     </Select>
                     <TextField

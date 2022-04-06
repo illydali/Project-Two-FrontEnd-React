@@ -70,7 +70,7 @@ export default function Home(props) {
                     <Box marginTop={3}
                         // hide hero image for now when in xs and sm size
                         sx={{ display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' } }}>
-                        <img src='https://media.istockphoto.com/photos/smiling-brunette-woman-holding-two-slice-of-lemon-in-front-of-her-picture-id912862714?b=1&k=20&m=912862714&s=170667a&w=0&h=0KmCyEKYqN41soTntdEQeThTcUuh0OaBXxlEVKZHDt0='
+                        <img src='https://www.lofficielusa.com/_next/image?url=https%3A%2F%2Fwww.datocms-assets.com%2F39109%2F1615281388-1615215455766079-shutterstock763875802.jpg%3Fauto%3Dformat%252Ccompress%26cs%3Dsrgb&w=3840&q=75'
                             alt=''
                             height={450}
                             width={"auto"} />

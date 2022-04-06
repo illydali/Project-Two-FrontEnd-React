@@ -17,7 +17,7 @@ export default function EditArticle(props) {
 
                 <ThemeProvider theme={MyTheme}>
                     <Typography
-                        sx={{ padding: '1rem' }} variant='h2' component='h2' color='text.primary'>Contribute to our Collection</Typography>
+                        sx={{ padding: '1rem' }} variant='h6' component='h2' color='text.primary'>Edit Form</Typography>
                     <FormControl noValidate autoComplete='off' fullWidth>
                         <TextField
                             variant='outlined'
@@ -28,17 +28,8 @@ export default function EditArticle(props) {
                             name='form_title'
                             value={props.form_title}
                             onChange={props.updateFormField}
-                        />
-                        <br />
-                        <TextField
-                            variant='outlined'
-                            color='secondary'
-                            fullWidth
-                            label='Email'
-                            name='form_email'
-                            value={props.form_email}
-                            onChange={props.updateFormField}
-                        />
+                        > {props.form_title}
+                            </TextField>
                         <br />
                         <TextField
                             variant='outlined'
@@ -152,6 +143,7 @@ export default function EditArticle(props) {
                         />
                         <Box>
                             <Button
+                                sx={{ mt:2 }}
                                 variant="contained"
                                 color="secondary"
                                 endIcon={<DoubleArrowIcon />}

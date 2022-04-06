@@ -27,29 +27,34 @@ export default class Articles extends React.Component {
         'commentsData': [],
 
         // search 
-        'title': "",
+        'title': '',
         'description': '',
         'body_tags': "",
         'duration': '',
         'searchItem': [],
         'displaySearch': false,
 
-        // form
-        'form_user_name': "",
-        'form_title': "",
-        'form_email': "",
-        'form_description': "",
-        'form_image': "",
-        'form_ingredients_tag': "",
+        // form state for edit and add new
+        'form_user_name': '',
+        'form_title': '',
+        'form_email': '',
+        'form_description': '',
+        'form_image': '',
+        // 'form_ingredients_tag': '',
         'form_ingredients': '',
-        'form_quantity': "",
-        "form_body_tags": "",
+        "form_body_tags": '',
         'form_skin_concern': '',
-        'form_duration': "",
+        'form_duration': '',
         'form_instructions': '',
-        'articleIdBeingEdited': ''
+        'articleIdBeingEdited': '',
 
-        // form edit 
+        // comments section
+        'addCommentUsername': '',
+        'addCommentText': '',
+        'addCommentEmail': '',
+        'commentIdToUpdate': '',
+        'editCommentUsername': '',
+        'editCommentText': ''
 
     }
 
@@ -84,7 +89,7 @@ export default class Articles extends React.Component {
 
         this.setState({
             'active': 'listing',
-            'allData' : clone
+            'allData': clone
         })
         console.log(this.state.allData)
     }
@@ -172,7 +177,12 @@ export default class Articles extends React.Component {
                         commentsData={this.state.commentsData}
                         handleDelete={this.handleDelete}
                         editArticle={this.editArticle}
-                        
+                        addCommentUsername={this.state.addCommentUsername}
+                        addCommentText={this.state.addCommentText}
+                        addCommentEmail={this.state.addCommentEmail}
+                        addComment={this.addComment}
+                        updateFormField={this.updateFormField}
+
                     />
                 </React.Fragment>
             )
@@ -183,18 +193,22 @@ export default class Articles extends React.Component {
                     <EditArticle
                         setActive={this.setActive}
                         articleInfo={this.state.articleInfo}
-                        title={this.state.form_title}
-                        email={this.state.form_email}
-                        description={this.state.form_description}
-                        image={this.state.form_image}
-                        duration={this.state.form_duration}
-                        body_tags={this.state.form_body_tags}
-                        instuctions={this.state.form_instructions}
-                        skin_concern={this.state.form_skin_concern}
+                        form_title={this.state.form_title}
+                        form_email={this.state.form_email}
+                        form_description={this.state.form_description}
+                        form_image={this.state.form_image}
+                        form_duration={this.state.form_duration}
+                        form_body_tags={this.state.form_body_tags}
+                        form_instructions={this.state.form_instructions}
+                        form_skin_concern={this.state.form_skin_concern}
                         updateFormField={this.updateFormField}
-                        ingredients={this.state.ingredients}
+                        form_ingredients={this.state.ingredients}
                         articleIdBeingEdited={this.state.articleIdBeingEdited}
                         updateArticle={this.updateArticle}
+                        editComment={this.editComment}
+                        commentIdToUpdate={this.state.commentIdToUpdate}
+                        editCommentUsername={this.state.commentUsername}
+                        editCommentText={this.state.editCommentText}
                     />
                 </React.Fragment>
             )
@@ -258,6 +272,68 @@ export default class Articles extends React.Component {
         })
     }
 
+    editArticle = async () => {
+        let idToEdit = { ...this.state.articleInfo[0] }
+        console.log(idToEdit.title)
+        this.setState({
+            'active': 'edit',
+            'form_title': idToEdit.title,
+            'form_email': idToEdit.email,
+            'form_description': idToEdit.description,
+            'form_image': idToEdit.image,
+            'form_duration': idToEdit.title,
+            'form_instructions': idToEdit.instructions,
+            'articleIdBeingEdited': idToEdit._id
+
+        })
+
+    }
+
+    updateArticle = async () => {
+        let newData = {
+            title: this.state.form_title,
+            image: this.state.form_image,
+            description: this.state.form_description,
+            instructions: this.state.form_instructions,
+            duration: this.state.form_duration
+        }
+
+        let articleIdBeingEdited = this.state.articleIdBeingEdited
+        console.log(articleIdBeingEdited)
+        let update = await axios.put(this.BASE_API_URL + '/article/' + articleIdBeingEdited, newData)
+        console.log(update.data)
+
+        let indexToReplace = this.state.allData.findIndex((data) => {
+            return data._id === articleIdBeingEdited
+        })
+        let editedArticle = { ...this.state.allData[indexToReplace] }
+        editedArticle = { ...newData }
+
+        let cloned = [
+            // put in the tasks before the index to replace
+            ...this.state.allData.slice(0, indexToReplace),
+            editedArticle,
+            ...this.state.allData.slice(indexToReplace + 1)
+
+        ]
+
+        this.setState({
+            'active': 'listing',
+            'allData': cloned
+        })
+
+    }
+
+    handleDelete = async () => {
+        let idToDelete = this.state.articleInfo[0]._id
+        await axios.delete(this.BASE_API_URL + '/article/' + idToDelete)
+        this.fetchData()
+        this.setState({
+            'active': "listing",
+
+        })
+    }
+
     viewComments = async (id) => {
         let articleId = id
         let comments = await axios.get(this.BASE_API_URL + '/article/' + articleId + '/comments')
@@ -275,58 +351,70 @@ export default class Articles extends React.Component {
         })
     }
 
+    addComment = async () => {
+        let data = {
+            username: this.state.addCommentUsername,
+            text: this.state.addCommentText,
+            email: this.state.addCommentEmail
+        }
+
+        let articleId = this.state.articleInfo[0]._id
+
+        let newComment = await axios.post(this.BASE_API_URL + '/article/' + articleId + '/comments/create', data)
+        console.log(newComment.data)
+
+
+        // let updatedComment = await axios.get(this.BASE_API_URL + '/article/' + articleId + '/comments')
+
+        // clone
+        let clone = this.state.commentsData.slice();
+        // modify
+        clone.push(data);
+        // replace
+
+        this.setState({
+            'commentsData': clone,
+            'addCommentUsername': '',
+            'addCommentText': '',
+            'addCommentEmail': ''
+        })
+        console.log(this.state.commentsData)
+    }
+
+    editComment = (id, name, text) => {
+        this.setState({
+            commentIdToUpdate: id,
+            editCommentUsername: name,
+            editCommentText: text
+        })
+    }
+
+    updateComment = async () => {
+        let data = {
+            commentUsername: this.state.editCommentUsername,
+            commentText: this.state.editCommentText
+        }
+
+        let articleInfo = this.state.allData[0]._id
+        let commentIdToUpdate = this.state.commentIdToUpdate
+        let newInfo = await axios.put(this.BASE_API_URL + '/article/' + articleInfo + "/comments/edit/" + commentIdToUpdate, data)
+        console.log(newInfo.data)
+
+        // let updated_comments = await axios.get(this.BASE_API_URL + '/article/' + project_id + "/comments")
+
+        this.setState({
+            commentsData: newInfo.data[0].comments,
+            editCommentUsername: '',
+            editCommentText: '',
+            
+        })
+    }
+
     handleCheckbox = (e) => {
 
     }
 
-    editArticle = async () => {
-        let idToEdit = this.state.articleInfo[0]
-        console.log(idToEdit._id)
-        this.setState({
-            'active': 'edit',
 
-
-            'form_title': idToEdit.form_title,
-            'form_email': idToEdit.email,
-            'form_description': idToEdit.description,
-            'form_image': idToEdit.image,
-            'form_duration': idToEdit.duration,
-            'form_instructions': idToEdit.instructions,
-            'articleIdBeingEdited': idToEdit._id
-
-        })
-
-    }
-
-    updateArticle = async () => {
-        let newData = {
-            title : this.state.form_title,
-            image : this.state.form_image,
-            description : this.state.form_description,
-            instructions : this.state.form_instructions,
-            duration : this.state.form_duration
-        }
-
-        let articleIdBeingEdited = this.state.articleIdBeingEdited
-        console.log(articleIdBeingEdited)
-        let update = await axios.put(this.BASE_API_URL + '/article/' + articleIdBeingEdited, newData)
-        console.log(update.data)
-
-        this.setState({
-            'active': 'listing'
-        })
-
-    }
-
-    handleDelete = async () => {
-        let idToDelete = this.state.articleInfo[0]._id
-        await axios.delete(this.BASE_API_URL + '/article/' + idToDelete)
-        this.fetchData()
-        this.setState({
-            'active': "listing",
-
-        })
-    }
 
     render() {
         return (
@@ -338,7 +426,6 @@ export default class Articles extends React.Component {
 
                             {/* <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}> */}
                             <Button
-                                // sx={{marginLeft:'auto'}}
                                 color="inherit" onClick={() => this.setActive("listing")}>Browse</Button>
                             {/* fix logo and home button */}
 
