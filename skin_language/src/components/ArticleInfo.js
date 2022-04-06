@@ -100,16 +100,16 @@ export default function ArticleInfo(props) {
 
                         <Box>
                             <Typography>Leave a comment</Typography>
-                            <div>
-                                <label className="form-label">Name</label>
+                            <Box>
+                                <TextField label='New Comment'>Name</TextField>
                                 <input type="text"
                                     className="form-control"
                                     name="new_comment_name"
                                     value={props.new_comment_name}
                                     onChange={props.updateFormField}
                                     placeholder="Your name" />
-                            </div>
-                            <div>
+                            </Box>
+                            <Box>
                                 <label className="form-label">Comment</label>
                                 <textarea className="form-control"
                                     name="new_comment_text"
@@ -117,7 +117,7 @@ export default function ArticleInfo(props) {
                                     onChange={props.updateFormField}
                                     placeholder="Your comments"
                                 />
-                            </div>
+                            </Box>
                             <Button size="small"
                                 onClick={props.addComment}>Post Comment</Button>
 

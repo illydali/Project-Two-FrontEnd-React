@@ -75,9 +75,18 @@ export default class Articles extends React.Component {
 
         let response = await axios.post(this.BASE_API_URL + "/article", formData)
         console.log(response.data)
+
+        // clone
+        let clone = this.state.allData.slice();
+        // modify
+        clone.push(formData);
+        // replace
+
         this.setState({
             'active': 'listing',
+            'allData' : clone
         })
+        console.log(this.state.allData)
     }
 
     fetchData = async () => {
