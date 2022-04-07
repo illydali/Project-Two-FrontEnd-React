@@ -46,17 +46,6 @@ export default function ArticleInfo(props) {
                                                 <Typography variant='body1' color='text.primary' component='main'>
                                                     The Why: {a.description}
                                                     <br />
-                                                    {/* What you need: {
-                                                        a.ingredients.map((i) =>
-                                                            <Box key={i._id}>
-                                                                <Typography variant='body2' component='p' >
-                                                                    {i.name}
-                                                                    {i.quantity}
-                                                                </Typography>
-                                                            </Box>
-                                                        )
-                                                    } */}
-                                                    <br />
                                                     Time: {a.duration}
                                                     <br />
                                                     Submitted: {moment(a.date).format('dddd, MMMM Do YYYY')}
@@ -85,70 +74,144 @@ export default function ArticleInfo(props) {
 
                                                 <Divider color='secondary'> Comments </Divider>
                                                 <Box>
-                                                {props.commentsData.map((c, ind) => (
-                                                    <Box sx={{ m: 1}} key={ind}>
+                                                    {props.commentsData.map((c, ind) => (
+                                                        <Box sx={{ m: 1 }} key={ind}>
 
-                                                        {/* <p>{c.email}</p> */}
+                                                            {/* <p>{c.email}</p> */}
 
-                                                        <Typography>{c.text}</Typography>
-                                                        <Avatar sx={{ width: 24, height: 24, bgcolor: 'secondary' }}>{c.username[0]} </Avatar>
-                                                        <Typography>{c.username}</Typography>
-                                                        <Typography>{moment(c.date).format('dddd, MMMM Do YYYY')}</Typography>
-                                                        <br />
-                                                        <ModeEditOutlineTwoToneIcon 
-                                                            color='secondary'
-                                                            onClick={props.editComment}
+                                                            <Typography>{c.text}</Typography>
+                                                            <Avatar sx={{ width: 24, height: 24, bgcolor: 'secondary' }}>{c.username[0]} </Avatar>
+                                                            <Typography>{c.username}</Typography>
+                                                            <Typography>{moment(c.date).format('dddd, MMMM Do YYYY')}</Typography>
+                                                            <br />
+                                                            <ModeEditOutlineTwoToneIcon
+                                                                color='secondary'
+                                                                onClick={() => {
+                                                                    props.editComment(c._id, c.username, c.text, c.email)
+                                                                }}
+
                                                             />
-                                                        <DeleteForeverIcon 
-                                                            color='secondary'
-                                                            onClick={() => (console.log('clicked'))}
+                                                            <DeleteForeverIcon
+                                                                color='secondary'
+                                                                onClick={() => {
+                                                                    props.deleteComment(c._id)
+                                                                }}
                                                             />
-                                                    </Box>
-                                                ))}
+                                                        </Box>
+                                                    ))}
                                                 </Box>
                                                 <Form>
-                                                    <Form.Group className="mb-3" controlId="formBasicUsername">
+                                                    {props.displayEditComment == false ?
 
-                                                        <Form.Control
-                                                            type="text"
-                                                            placeholder="Enter Username"
-                                                            name="addCommentUsername"
-                                                            value={props.addCommentUsername}
-                                                            onChange={props.updateFormField}
-                                                        />
-                                                    </Form.Group>
 
-                                                    <Form.Group className="mb-3" controlId="formBasicText">
+                                                        <>
 
-                                                        <Form.Control
-                                                            as="textarea" rows={2}
-                                                            placeholder="Enter Comment"
-                                                            name="addCommentText"
-                                                            value={props.addCommentText}
-                                                            onChange={props.updateFormField}
-                                                        />
-                                                    </Form.Group>
-                                                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                                                            <Form.Group className="mb-3" controlId="formBasicUsername">
 
-                                                        <Form.Control
-                                                            type="password"
-                                                            placeholder="Enter Email"
-                                                            name="addCommentEmail"
-                                                            value={props.addCommentEmail}
-                                                            onChange={props.updateFormField}
-                                                            autoComplete="false"
-                                                        />
-                                                    </Form.Group>
-                                                    <Button size="small" variant="contained"
-                                                        onClick={props.addComment}>Add Comment</Button>
+                                                                <Form.Control
+                                                                    type="text"
+                                                                    placeholder="Enter Username"
+                                                                    name="addCommentUsername"
+                                                                    value={props.addCommentUsername}
+                                                                    onChange={props.updateFormField}
+                                                                />
+                                                            </Form.Group>
+
+                                                            <Form.Group className="mb-3" controlId="formBasicText">
+
+                                                                <Form.Control
+                                                                    as="textarea" rows={2}
+                                                                    placeholder="Enter Comment"
+                                                                    name="addCommentText"
+                                                                    value={props.addCommentText}
+                                                                    onChange={props.updateFormField}
+                                                                />
+                                                            </Form.Group>
+                                                            <Form.Group className="mb-3" controlId="formBasicEmail">
+
+                                                                <Form.Control
+                                                                    type="email"
+                                                                    placeholder="Enter Email"
+                                                                    name="addCommentEmail"
+                                                                    value={props.addCommentEmail}
+                                                                    onChange={props.updateFormField}
+                                                                    autoComplete="false"
+                                                                />
+                                                            </Form.Group>
+                                                            <Button size="small" variant="contained"
+                                                                onClick={props.addComment}
+                                                                style={{ display: props.displayEditComment === false ? 'inline-block' : 'none' }}
+                                                            >Add Comment</Button>
+                                                            <Button sx={{paddingRight: 1} }size="small" variant="contained"
+                                                                onClick={props.updateComment}
+                                                                style={{ display: props.displayEditComment === true ? "inline-block" : "none" }}
+                                                            >Save Changes</Button>
+                                                            <Button size="small" variant="contained"
+                                                                onClick={props.cancelEdit}
+                                                                style={{ display: props.displayEditComment === true ? "inline-block" : "none" }}
+                                                            >Cancel </Button>
+
+                                                        </>
+                                                        :
+                                                        <>
+                                                            <Form.Group className="mb-3" controlId="formBasicUsername">
+
+                                                                <Form.Control
+                                                                    type="text"
+                                                                    placeholder="Enter Username"
+                                                                    name="editCommentUsername"
+                                                                    value={props.editCommentUsername}
+                                                                    onChange={props.updateFormField}
+                                                                    
+                                                                />
+                                                            </Form.Group>
+
+                                                            <Form.Group className="mb-3" controlId="formBasicText">
+
+                                                                <Form.Control
+                                                                    as="textarea" rows={2}
+                                                                    placeholder="Enter Comment"
+                                                                    name="editCommentText"
+                                                                    value={props.editCommentText}
+                                                                    onChange={props.updateFormField}
+                                                                />
+                                                            </Form.Group>
+                                                            <Form.Group className="mb-3" controlId="formBasicEmail">
+
+                                                                <Form.Control
+                                                                    type="email"
+                                                                    placeholder="Enter Email"
+                                                                    name="editCommentEmail"
+                                                                    value={props.editCommentEmail}
+                                                                    onChange={props.updateFormField}
+                                                                    autoComplete="false"
+                                                                    disabled
+                                                                    readOnly
+                                                                />
+                                                            </Form.Group>
+                                                            <Button size="small" variant="contained"
+                                                                onClick={props.addComment}
+                                                                style={{ display: props.displayEditComment === false ? 'inline-block' : 'none' }}
+                                                            >Add Comment</Button>
+                                                            <Button size="small" variant="contained"
+                                                                onClick={props.updateComment}
+                                                                style={{ display: props.displayEditComment === true ? "inline-block" : "none" }}
+                                                            >Save Changes</Button>
+                                                            <Button size="small" variant="contained"
+                                                                onClick={props.cancelEdit}
+                                                                style={{ display: props.displayEditComment === true ? "inline-block" : "none" }}
+                                                            >Cancel </Button>
+                                                    </>
+                                                    }
+                                                    
                                                 </Form>
-
 
                                             </CardContent>
                                         </Card>
                                     )
                                 })}
-
+                        <CustomizedDialogs />
+                        
                     </Paper>
                 </ThemeProvider>
             </Container>

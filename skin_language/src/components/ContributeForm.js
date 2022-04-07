@@ -12,7 +12,7 @@ import { ThemeProvider } from '@emotion/react';
 
 export default function ContributeForm(props) {
 
-    return (
+       return (
         <Container>
 
             <ThemeProvider theme={MyTheme}>
@@ -28,6 +28,8 @@ export default function ContributeForm(props) {
                         name='form_title'
                         value={props.form_title}
                         onChange={props.updateFormField}
+                        error={!props.errorMessage.title}
+                        helperText={props.errorMessage.title && props.errorMessage.title}
                     />
                     <br />
                     <TextField
@@ -110,7 +112,7 @@ export default function ContributeForm(props) {
                     </FormControl>
 
                     <br />
-                  
+
                     <FormLabel id="skin_concern">Skin Type</FormLabel>
                     <RadioGroup
                         aria-labelledby="skin_concern"
@@ -125,22 +127,22 @@ export default function ContributeForm(props) {
                         <FormControlLabel color="secondary" value="sensitive" control={<Radio />} label="Sensitive" />
                         <FormControlLabel color="secondary" value="acne" control={<Radio />} label="Acne" />
                     </RadioGroup>
-         
-                    
-                <br />
-                <FormLabel id="Duration" htmlFor='Duration'>Select Duration</FormLabel>
+
+
+                    <br />
+                    <FormLabel id="Duration" htmlFor='Duration'>Select Duration</FormLabel>
                     <Select
                         aria-labelledby="Duration"
                         onChange={props.updateFormField}
                         defaultValue=''
-                        name="form_duration" 
+                        name="form_duration"
                         value={props.form_duration ? props.form_duration : ""}
 
                     >
-                        <MenuItem color="secondary" value=""  label="10mins or less" > 10 Mins or Less </MenuItem>
-                        <MenuItem color="secondary" value=""  label="10mins to 20mins" > Between 10 to 20 Mins </MenuItem>
-                        <MenuItem color="secondary" value=""  label="20mins and above" > 20 Mins and Above </MenuItem>
-                        
+                        <MenuItem color="secondary" value="" label="10mins or less" > 10 Mins or Less </MenuItem>
+                        <MenuItem color="secondary" value="" label="10mins to 20mins" > Between 10 to 20 Mins </MenuItem>
+                        <MenuItem color="secondary" value="" label="20mins and above" > 20 Mins and Above </MenuItem>
+
                     </Select>
                     <TextField
                         variant='outlined'
@@ -151,20 +153,20 @@ export default function ContributeForm(props) {
                         value={props.body_tags}
                         onChange={props.updateFormField}
                     />
-                <Box>
-                    <Button
-                        variant="contained"
-                        color="secondary"
-                        endIcon={<DoubleArrowIcon />}
-                        size="small"
-                        type="submit"
-                        onClick={
-                            props.addContributeForm}
-                    > Submit </Button>
-                </Box>
-            </FormControl>
+                    <Box>
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            endIcon={<DoubleArrowIcon />}
+                            size="small"
+                            type="submit"
+                            onClick={
+                                props.addContributeForm}
+                        > Submit </Button>
+                    </Box>
+                </FormControl>
 
-        </ThemeProvider>
+            </ThemeProvider>
 
         </Container >
 

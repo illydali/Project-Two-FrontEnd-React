@@ -151,7 +151,17 @@ export default function EditArticle(props) {
                                 type="submit"
                                 onClick={
                                     props.updateArticle}
-                            > Submit </Button>
+                            > Update </Button>
+                            <Button
+                                sx={{ mt:2 }}
+                                variant="contained"
+                                color="secondary"
+                                endIcon={<DoubleArrowIcon />}
+                                size="small"
+                                type="submit"
+                                onClick={
+                                    props.cancelEdit}
+                            > Cancel </Button>
                         </Box>
                     </FormControl>
 

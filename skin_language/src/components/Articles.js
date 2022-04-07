@@ -9,13 +9,14 @@ import ContributeForm from "./ContributeForm";
 import { ThemeProvider } from "@emotion/react"
 import ArticleInfo from "./ArticleInfo"
 import EditArticle from "./EditArticle"
+import CustomizedDialogs from "./DialogModal"
 
 
 
 
 export default class Articles extends React.Component {
-    // BASE_API_URL = "https://beauty-from-home.herokuapp.com";
-    BASE_API_URL = "https://3000-illydali-projecttwoexpre-w0e88ixe9ed.ws-us38.gitpod.io"
+    BASE_API_URL = "https://beauty-from-home.herokuapp.com";
+    // BASE_API_URL = "https://3000-illydali-projecttwoexpre-w0e88ixe9ed.ws-us38.gitpod.io"
 
     state = {
         'active': 'home',
@@ -25,6 +26,9 @@ export default class Articles extends React.Component {
         'displayMore': false,
         'articleInfo': [],
         'commentsData': [],
+        'articleBeingShown' : 0,
+        errorMessage: {},
+        error: false,
 
         // search 
         'title': '',
@@ -54,7 +58,9 @@ export default class Articles extends React.Component {
         'addCommentEmail': '',
         'commentIdToUpdate': '',
         'editCommentUsername': '',
-        'editCommentText': ''
+        'editCommentText': '',
+        'editCommentEmail': '',
+        'displayEditComment': false
 
     }
 
@@ -62,6 +68,20 @@ export default class Articles extends React.Component {
         this.setState({
             [e.target.name]: e.target.value
         })
+    }
+
+    validateForm = () => {
+        let isError = false;
+        if (this.state.form_title == '') {
+            isError = true;
+
+            this.setState({
+                error: true,
+                errorMessage: { title: 'Title cannot be blank' }
+            })
+        }
+
+        return isError
     }
 
     addContributeForm = async () => {
@@ -144,7 +164,12 @@ export default class Articles extends React.Component {
                         updateFormField={this.updateFormField}
                         ingredients={this.state.ingredients}
                         ingredients_tag={this.state.form_ingredients_tag}
-                        addContributeForm={this.addContributeForm} />
+                        addContributeForm={this.addContributeForm}
+
+                        validateForm={this.validateForm}
+                        error={this.state.error}
+                        errorMessage={this.state.errorMessage}
+                    />
                 </React.Fragment>
             );
         } if (this.state.active === 'home') {
@@ -182,8 +207,21 @@ export default class Articles extends React.Component {
                         addCommentEmail={this.state.addCommentEmail}
                         addComment={this.addComment}
                         updateFormField={this.updateFormField}
-
-                    />
+                        editComment={this.editComment}
+                        commentIdToUpdate={this.state.commentIdToUpdate}
+                        editCommentUsername={this.state.editCommentUsername}
+                        editCommentText={this.state.editCommentText}
+                        editCommentEmail={this.state.editCommentEmail}
+                        displayEditComment={this.state.displayEditComment}
+                        cancelEdit={this.cancelEdit}
+                        updateComment={this.updateComment}
+                        deleteComment={this.deleteComment}
+                    ><CustomizedDialogs
+                            addCommentUsername={this.state.addCommentUsername}
+                            addCommentText={this.state.addCommentText}
+                            addCommentEmail={this.state.addCommentEmail}
+                            addComment={this.addComment} />
+                    </ArticleInfo>
                 </React.Fragment>
             )
 
@@ -205,10 +243,7 @@ export default class Articles extends React.Component {
                         form_ingredients={this.state.ingredients}
                         articleIdBeingEdited={this.state.articleIdBeingEdited}
                         updateArticle={this.updateArticle}
-                        editComment={this.editComment}
-                        commentIdToUpdate={this.state.commentIdToUpdate}
-                        editCommentUsername={this.state.commentUsername}
-                        editCommentText={this.state.editCommentText}
+                        cancelEdit={this.cancelEdit}
                     />
                 </React.Fragment>
             )
@@ -268,17 +303,20 @@ export default class Articles extends React.Component {
         this.setState({
             'articleInfo': results.data,
             'displayMore': true,
-            'active': 'view'
+            'active': 'view',
+            'articleBeingShown' : articleId
         })
     }
 
-    editArticle = async () => {
-        let idToEdit = { ...this.state.articleInfo[0] }
-        console.log(idToEdit.title)
+    editArticle = async (id) => {
+        let idToEdit = this.state.allData.find(function(a){
+            return a._id === id
+        })
+        console.log(idToEdit)
+        
         this.setState({
             'active': 'edit',
             'form_title': idToEdit.title,
-            'form_email': idToEdit.email,
             'form_description': idToEdit.description,
             'form_image': idToEdit.image,
             'form_duration': idToEdit.title,
@@ -324,8 +362,20 @@ export default class Articles extends React.Component {
 
     }
 
-    handleDelete = async () => {
-        let idToDelete = this.state.articleInfo[0]._id
+    cancelEdit = async () => {
+        this.setState({
+            'active': 'listing',
+            'articleIdBeingEdite' : '',
+            displayEditComment: false
+        })
+       
+    }
+
+    handleDelete = async (id) => {
+        
+        let idToDelete = this.state.allData.find(function(a){
+            return a._id === id
+        })
         await axios.delete(this.BASE_API_URL + '/article/' + idToDelete)
         this.fetchData()
         this.setState({
@@ -358,14 +408,10 @@ export default class Articles extends React.Component {
             email: this.state.addCommentEmail
         }
 
-        let articleId = this.state.articleInfo[0]._id
+        let articleId = this.state.articleBeingShown
 
         let newComment = await axios.post(this.BASE_API_URL + '/article/' + articleId + '/comments/create', data)
-        console.log(newComment.data)
-
-
-        // let updatedComment = await axios.get(this.BASE_API_URL + '/article/' + articleId + '/comments')
-
+        console.log(newComment)
         // clone
         let clone = this.state.commentsData.slice();
         // modify
@@ -381,40 +427,88 @@ export default class Articles extends React.Component {
         console.log(this.state.commentsData)
     }
 
-    editComment = (id, name, text) => {
+    editComment = (id, username, text, email) => {
+        let idToEdit = this.state.commentsData.find(function(c){
+            return c._id === id
+        })
+        console.log(idToEdit)
+
         this.setState({
             commentIdToUpdate: id,
-            editCommentUsername: name,
-            editCommentText: text
+            editCommentUsername: username,
+            editCommentText: text,
+            editCommentEmail: email,
+            displayEditComment: true
         })
     }
 
     updateComment = async () => {
-        let data = {
-            commentUsername: this.state.editCommentUsername,
-            commentText: this.state.editCommentText
+        let newCommentData = {
+            username: this.state.editCommentUsername,
+            text: this.state.editCommentText,
+            email: this.state.editCommentEmail,
         }
 
-        let articleInfo = this.state.allData[0]._id
-        let commentIdToUpdate = this.state.commentIdToUpdate
-        let newInfo = await axios.put(this.BASE_API_URL + '/article/' + articleInfo + "/comments/edit/" + commentIdToUpdate, data)
-        console.log(newInfo.data)
+        let articleId = this.state.articleBeingShown
+        console.log(articleId)
+        console.log(newCommentData)
 
-        // let updated_comments = await axios.get(this.BASE_API_URL + '/article/' + project_id + "/comments")
+        let commentIdToUpdate = this.state.commentIdToUpdate
+        let newData = await axios.put(this.BASE_API_URL + '/article/' + articleId + '/comments/' + commentIdToUpdate, newCommentData)
+        console.log(newData.data)
+        console.log(commentIdToUpdate)
+
+        let indexToReplace = this.state.commentsData.findIndex((e)=>{
+            return e._id === commentIdToUpdate
+        })
+
+        let modifiedTask =  {
+            _id : this.state.commentsData[indexToReplace]._id,
+            text: this.state.editCommentText,
+            username: this.state.editCommentUsername,
+        }
+
+        let cloned = [
+            // put in the tasks before the index to replace
+            ...this.state.commentsData.slice(0, indexToReplace),
+            modifiedTask,
+            ...this.state.commentsData.slice(indexToReplace+1)
+
+        ]
 
         this.setState({
-            commentsData: newInfo.data[0].comments,
-            editCommentUsername: '',
-            editCommentText: '',
-            
+            'commentsData': cloned,
+            'editCommentUsername': '',
+            'editCommentText': '',
+            'editCommentEmail': '',
+            displayEditComment: false
+
         })
     }
 
-    handleCheckbox = (e) => {
+    deleteComment = async (id) => {
 
+        let deleteCommentId = id
+        let articleId = this.state.articleBeingShown
+        console.log(deleteCommentId)
+        console.log(articleId)
+
+        // delete comment
+        await axios.delete(this.BASE_API_URL + '/article/' + articleId + '/comments/' + deleteCommentId)
+
+        // cloning comments array
+        let cloned = this.state.commentsData.slice();
+        // modify the array
+        let indexToDelete = this.state.commentsData.findIndex((i)=>{
+            return i._id === deleteCommentId
+        })
+        // remove from array
+        cloned.splice(indexToDelete, 1);
+
+        this.setState({
+            'commentsData': cloned
+        })
     }
-
-
 
     render() {
         return (
