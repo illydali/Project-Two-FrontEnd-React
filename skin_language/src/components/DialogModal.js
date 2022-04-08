@@ -21,6 +21,11 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     },
 }));
 
+{/* <Grid container>
+    <Grid item sm={4} md={6}></Grid>
+    <Grid item sm={12} ></Grid>
+</Grid> */}
+
 const BootstrapDialogTitle = (props) => {
     const { children, onClose, ...other } = props;
 

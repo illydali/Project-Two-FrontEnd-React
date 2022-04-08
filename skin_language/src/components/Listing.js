@@ -18,9 +18,7 @@ export default function Listing(props) {
                     color='text.primary'
                     align='center'
                 >All Articles</Typography>
-
-
-
+                
                 {
                     props.allData.map(
                         each => {

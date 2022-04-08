@@ -23,6 +23,8 @@ export default class Articles extends React.Component {
         'loaded': false,
         'allData': [],
         'ingredients': [],
+        'skin': [],
+        'skinOptions' : [],
         'displayMore': false,
         'articleInfo': [],
         'commentsData': [],
@@ -116,8 +118,10 @@ export default class Articles extends React.Component {
 
     fetchData = async () => {
         let response = await axios.get(this.BASE_API_URL + "/articles")
+        
         this.setState({
             'allData': response.data.article
+            
         })
     }
 
@@ -129,9 +133,19 @@ export default class Articles extends React.Component {
         })
     }
 
+    // fetchSkinConcern = async () => {
+    //     let response = await axios.get(this.BASE_API_URL + '/skin')
+        
+    //     this.setState({
+    //         'skin': response.data.skin_types
+    //     })
+    //     console.log(this.state.skin)
+    // }
+
     componentDidMount() {
         this.fetchData()
         this.fetchIngredients()
+        // this.fetchSkinConcern()
     }
 
     renderContent() {
@@ -190,6 +204,12 @@ export default class Articles extends React.Component {
                         getSearch={this.getSearch}
                         handleCheckbox={this.handleCheckbox}
                         displaySearch={this.state.displaySearch}
+                        refreshSearch={this.refreshSearch}
+                        skinOptions={this.state.skinOptions}
+                        articleInfo={this.state.articleInfo}
+                        commentsData={this.state.commentsData}
+                        viewComments={this.viewComments}
+                        viewArticle={this.viewArticle}
                     />
                 </React.Fragment>
             );
@@ -271,27 +291,32 @@ export default class Articles extends React.Component {
     // }
 
     getSearch = async (e) => {
-        // let searchItem = []
 
-        // await axios.get(this.BASE_API_URL + '/articles/search').then((res) => {
-        //     if (res.data.success) {
-        //         this.filterContent(res.data.posts, searchItem)
-        //     }
-        // })
         let search = await axios.get(this.BASE_API_URL + "/articles/search", {
             params: {
                 'title': this.state.title,
                 'description': this.state.description,
                 'body_tags': this.state.body_tags,
-                'duration': this.state.duration
+                'duration': this.state.duration,
+                'skin_concern' : this.state.skinOptions
             }
         })
+        console.log(search.data)
         this.setState({
             'searchItem': search.data,
-            'displaySearch': true
+            'displaySearch': true,
+            'title' : '',
+            'skinOptions': []
 
         })
         console.log(search)
+    }
+
+    refreshSearch = async () => {
+        this.setState({
+            'searchItem': '',
+            'displaySearch': false
+        })
     }
 
     viewArticle = async (id) => {
@@ -508,6 +533,25 @@ export default class Articles extends React.Component {
         this.setState({
             'commentsData': cloned
         })
+    }
+
+    handleCheckbox = (e) => {
+        if (this.state[e.target.name].includes(e.target.value)) {
+            let indexToRemove = this.state[e.target.name].findIndex(v => {
+                return v === e.target.value
+            })
+            let cloned = this.state[e.target.name].slice();
+            cloned.splice(indexToRemove, 1);
+            this.setState({
+                [e.target.name]: cloned
+            })
+        } else {
+            let clone = this.state[e.target.name].slice();
+            clone.push(e.target.value);
+            this.setState({
+                [e.target.name]: clone
+            })
+        }
     }
 
     render() {

@@ -2,7 +2,7 @@ import React from 'react'
 import {
     Button, Container, TextField, Typography, FormControl, InputLabel,
     MenuItem, Select, Box, RadioGroup, FormLabel, FormControlLabel, Radio,
-    FormGroup
+    FormGroup, Grid
 
 } from '@mui/material'
 
@@ -12,10 +12,18 @@ import { ThemeProvider } from '@emotion/react';
 
 export default function ContributeForm(props) {
 
-       return (
-        <Container>
+    // const [error, setError] = useState(false);
+    //   const [selectedValue, setSelectedValue] = useState(null);
+    //   const handleChange = (event) => {
+    //     setTime(event.target.value);
+    //   };
 
+
+    return (
+        <Container>
+            <Grid container>
             <ThemeProvider theme={MyTheme}>
+               
                 <Typography
                     sx={{ padding: '1rem' }} variant='h4' component='h1' color='text.primary'>Contribute to our Collection</Typography>
                 <FormControl noValidate autoComplete='off' fullWidth>
@@ -32,6 +40,7 @@ export default function ContributeForm(props) {
                         helperText={props.errorMessage.title && props.errorMessage.title}
                     />
                     <br />
+                   
                     <TextField
                         variant='outlined'
                         color='secondary'
@@ -100,48 +109,39 @@ export default function ContributeForm(props) {
                             onChange={props.updateFormField}
                             helperText='Separate by commas'
                         />
-                        {/* <TextField
-                            variant='outlined'
-                            color='secondary'
-                            fullWidth
-                            label='Quantity'
-                            name='form_quantity'
-                            value={props.form_quantity}
-                            onChange={props.updateFormField}
-                        /> */}
+
                     </FormControl>
-
                     <br />
+                    <FormControl sx={{ flexDirection: "row" }}>
+                        <FormLabel id="skin_concern">Skin Type</FormLabel>
+                        <RadioGroup
+                            aria-labelledby="skin_concern"
+                            onChange={props.updateFormField}
+                            // defaultValue="sensitive"
+                            name="form_skin_concern"
+                            value={props.form_skin_concern}
 
-                    <FormLabel id="skin_concern">Skin Type</FormLabel>
-                    <RadioGroup
-                        aria-labelledby="skin_concern"
-                        onChange={props.updateFormField}
-                        // defaultValue="sensitive"
-                        name="form_skin_concern"
-                        value={props.form_skin_concern}
-
-                    >
-                        <FormControlLabel color="secondary" value="dry" control={<Radio />} label="Dry" />
-                        <FormControlLabel color="secondary" value="oily" control={<Radio />} label="Oily" />
-                        <FormControlLabel color="secondary" value="sensitive" control={<Radio />} label="Sensitive" />
-                        <FormControlLabel color="secondary" value="acne" control={<Radio />} label="Acne" />
-                    </RadioGroup>
-
+                        >
+                            <FormControlLabel color="secondary" value="dry" control={<Radio />} label="Dry" />
+                            <FormControlLabel color="secondary" value="oily" control={<Radio />} label="Oily" />
+                            <FormControlLabel color="secondary" value="sensitive" control={<Radio />} label="Sensitive" />
+                            <FormControlLabel color="secondary" value="acne" control={<Radio />} label="Acne" />
+                        </RadioGroup>
+                    </FormControl>
 
                     <br />
                     <FormLabel id="Duration" htmlFor='Duration'>Select Duration</FormLabel>
                     <Select
                         aria-labelledby="Duration"
                         onChange={props.updateFormField}
-                        defaultValue=''
+                        // defaultValue=''
                         name="form_duration"
-                        value={props.form_duration ? props.form_duration : ""}
+                        value={''}
 
                     >
-                        <MenuItem color="secondary" value="" label="10mins or less" > 10 Mins or Less </MenuItem>
-                        <MenuItem color="secondary" value="" label="10mins to 20mins" > Between 10 to 20 Mins </MenuItem>
-                        <MenuItem color="secondary" value="" label="20mins and above" > 20 Mins and Above </MenuItem>
+                        <MenuItem color="secondary" value="10mins or less" label="10mins or less" > 10 Mins or Less </MenuItem>
+                        <MenuItem color="secondary" value="10mins to 20mins" label="10mins to 20mins" > Between 10 to 20 Mins </MenuItem>
+                        <MenuItem color="secondary" value="20mins and above" label="20mins and above" > 20 Mins and Above </MenuItem>
 
                     </Select>
                     <TextField
@@ -167,7 +167,7 @@ export default function ContributeForm(props) {
                 </FormControl>
 
             </ThemeProvider>
-
+            </Grid>                        
         </Container >
 
     )

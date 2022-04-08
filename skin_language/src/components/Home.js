@@ -1,63 +1,117 @@
-import { React } from 'react'
+import React from 'react'
 import Collage from './Collage'
 import {
     Typography, Box, Container, FormControl, MenuItem, Select, InputLabel, TextField, Button,
-    FormLabel, Radio, RadioGroup, FormControlLabel, Card, CardHeader, CardMedia, CardContent,
-    Divider, FormGroup, Checkbox
+    FormLabel, Radio, FormGroup, Card, CardHeader, CardMedia, CardContent,
+    Divider, CardActions, Checkbox, Paper, InputBase, IconButton
 } from '@mui/material'
 
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
+import ReplayIcon from '@mui/icons-material/Replay';
+
+const skin_concern = [
+    {
+        'type': 'Dry',
+        'value': 'dry'
+    }, {
+        'type': 'Combination',
+        'value': 'combination'
+    },
+    {
+        'type': 'Acne',
+        'value': 'acne'
+    },
+    {
+        'type': 'Oily',
+        'value': 'Oily'
+    }, {
+        'type': 'Sensitive',
+        'value': 'sensitive'
+    }
+]
+
+const body_tags = [
+    {
+        'name': 'Face',
+        'value': 'face'
+    },
+    {
+        'name': 'Hands',
+        'value': 'hands'
+    },
+    {
+        'name': 'Lips',
+        'value': 'lips'
+    }
+]
 
 export default function Home(props) {
-   
+
+    function renderBodyTags() {
+        return body_tags.map(e => {
+            return <MenuItem key={e.value}
+                color="secondary"
+                value={e.value}
+                name={e.value}
+                label={e.value} > {e.name}
+            </MenuItem>
+        })
+    }
+
+    function renderSkinOption() {
+        return skin_concern.map(e => {
+            return <React.Fragment key={e.type}>
+                <Checkbox
+                    name="skinOptions"
+                    value={e.type}
+                    onChange={props.handleCheckbox}
+                    checked={props.skinOptions.includes(e.type)}
+                    sx={{ '& .MuiSvgIcon-root': { fontSize: 16 } }}
+                /> {e.type}
+            </React.Fragment>
+        })
+    }
+
     function renderSearchResults() {
         if (props.searchItem) {
-            return <div>
-                {props.searchItem.map((e) => {
+            return <>
+                <Typography sx={{ p: 1 }} color='text.secondary'>
+                    Search Results
+                </Typography>
+                {props.searchItem.map((each) => {
                     return (
-                        <Card key={e._id}>
+                        <Card key={each._id}>
                             <CardHeader
                                 component="h1"
                                 title={
-                                    e.title}
-                                date={e.date} />
+                                    each.title}
+                                date={each.date} />
                             <CardMedia
                                 component='img'
                                 height='194'
-                                image={e.image}
-                                alt='Honey and Coconut Oil' />
+                                image={each.image}
+                                alt={each.image} />
                             <CardContent>
-                                <Typography variant='body1' color='text.primary' component='p'>
-                                    The Why: {e.description}
-                                    <br />
-                                    Difficulty: {e.description}
-                                    <br />
-                                    Time: {e.duration}
+                                <CardActions>
+                                    <Button
 
-                                </Typography>
-                                <Divider color='secondary'> Instructions </Divider>
-                                {
-                                    e.instructions.map((i, ind) =>
-                                        <Box sx={{
-                                            padding: '1rem',
-
-                                        }}
-                                            key={ind}>
-                                            <Typography variant='body2' component='p' >
-                                                <span>{i} </span>
-                                            </Typography>
-                                        </Box>
-                                    )}
+                                        size="small"
+                                        onClick={() => {
+                                            props.viewArticle(each._id)
+                                            props.viewComments(each._id)
+                                        }
+                                        }>
+                                        Learn More</Button>
+                                </CardActions>
                             </CardContent>
 
                         </Card>
                     )
                 })}
-            </div>
+            </>
         } else {
             return (
-                <div> ... </div>
+                <Paper> </Paper>
             )
         }
     }
@@ -65,98 +119,77 @@ export default function Home(props) {
     return (
         <>
             <Container>
-                <Typography variant='h3' component='h1'>
 
-                    <Box marginTop={3}
-                        // hide hero image for now when in xs and sm size
-                        sx={{ display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' } }}>
-                        <img src='https://www.lofficielusa.com/_next/image?url=https%3A%2F%2Fwww.datocms-assets.com%2F39109%2F1615281388-1615215455766079-shutterstock763875802.jpg%3Fauto%3Dformat%252Ccompress%26cs%3Dsrgb&w=3840&q=75'
-                            alt=''
-                            height={450}
-                            width={"auto"} />
-                        <Collage />
 
-                    </Box>
-                    <Box sx={{ paddingTop: '3rem' }}>
-                        <TextField
+                <Box marginTop={3}
+                    // hide hero image for now when in xs and sm size
+                    sx={{ display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' }  }}>
+                    <img src='https://www.lofficielusa.com/_next/image?url=https%3A%2F%2Fwww.datocms-assets.com%2F39109%2F1615281388-1615215455766079-shutterstock763875802.jpg%3Fauto%3Dformat%252Ccompress%26cs%3Dsrgb&w=3840&q=75'
+                        alt=''
+                        height={450}
+                        width={"auto"} />
+                    <Collage />
 
-                            variant='outlined'
-                            color='secondary'
-                            fullWidth
-                            label='Type something here'
-                            name='title'
-                            value={props.title}
-                            onChange={props.updateFormField}>
+                </Box>
+                <Box sx={{ paddingTop: '3rem' }}>
+                    <TextField
 
-                        </TextField>
+                        variant='outlined'
+                        color='secondary'
+                        fullWidth
+                        label='Search'
+                        name='title'
+                        value={props.title}
+                        onChange={props.updateFormField}>
 
-                    </Box>
+                    </TextField>
+                </Box>
 
-                    <Box sx={{ paddingTop: '1rem' }}>
-                        <FormControl sx={{ width: "30rem" }}>
-                            <InputLabel id="select-filter"
-                            >Select One</InputLabel>
-                            <Select
-                                labelId="select-filter"
-                                id="filterSelect"
-                                value={props.body_tags}
-
-                                name='body_tags'
-                                label="SearchTags"
-                                // onChange={(e) => {
-                                //     setSearchTerm(e.target.value)}}
-                                onChange={props.updateFormField}
-                            // onChange={props.getSearch}
-                            >
-                                {props.allData.map(each =>
-                                    each.body_tags.map((b, ind) => {
-                                        return (
-                                            <MenuItem key={ind} value={b}>{b}</MenuItem>
-                                        )
-                                    }
-                                    )
-                                )}
-                            </Select>
-                        </FormControl>
-    {/* */}
-                        {/* <form
-                            aria-labelledby="select-duration"
-                            onChange={handleChange}
-                            checked={checked}
+                <Box sx={{ paddingTop: '1rem' }}>
+                    <FormControl sx={{ flexDirection: { xs: "column", sm: "row" } }}>
+                        <InputLabel id="imple-select-label">Body</InputLabel>
+                        <Select sx={{ minWidth: 450 }}
+                       
+                            value={props.body_tags}
+                            label="Body Tags"
                             name="body_tags"
-                            value={props.body_tags}>
-
-                            <FormControlLabel value='face' control={<Checkbox />} label="Face" />
-                            <FormControlLabel value='eyes' control={<Checkbox />} label="Eyes" />
-                            <FormControlLabel value='lips' control={<Checkbox />} label="Lips" />
-                        </form> */}
-                        <FormLabel id="skin_concern">Skin Type</FormLabel>
-                        <RadioGroup
-                            aria-labelledby="select-duration"
                             onChange={props.updateFormField}
-                            // defaultValue="sensitive"
-                            name="duration"
-                            value={props.duration}
-
                         >
-                            <FormControlLabel color="secondary" value="10mins or less" control={<Radio />} label="10 Mins or Less" />
-                            <FormControlLabel color="secondary" value="10mins to 20mins" control={<Radio />} label="Up to 20 Mins" />
-                            <FormControlLabel color="secondary" value="20mins and above" control={<Radio />} label="Above 20 Mins" />
-                        </RadioGroup>
-                    </Box>
-                </Typography>
+                            {renderBodyTags()}
+                        </Select>
+                    </FormControl>
+                </Box>
+                <Box>
+                    <FormControl component="fieldset" variant="standard" >
+                        <Box sx={{ m: 1}}>
+                        <FormGroup sx={{display: 'flex', flexDirection: "row"}} >
+                            <FormLabel id="checkbox-group-label" sx={{ p: 1 }}>SkinType: </FormLabel>
+                            {renderSkinOption()}
+                        </FormGroup>
+                        </Box>
+                    </FormControl>
+                </Box>
+
                 <Button
                     variant="contained"
                     color="secondary"
-                    endIcon={<SearchOutlinedIcon />}
+
                     size="small"
                     type="submit"
                     onClick={props.getSearch}>
-                    Search
+                    <SearchOutlinedIcon />
                 </Button>
-                <Typography color='text.primary'>
-                    Search Results
-                </Typography>
+
+                <IconButton
+                    variant="contained"
+                    color="secondary"
+
+                    size="small"
+                    type="submit"
+                    onClick={props.refreshSearch}>
+                    <ReplayIcon />
+                </IconButton>
+
                 {renderSearchResults()}
 
             </Container >

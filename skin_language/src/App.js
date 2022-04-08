@@ -1,12 +1,14 @@
+import { CssBaseline } from '@mui/material';
 import React from 'react';
 import Articles from './components/Articles';
 
 
 function App() {
   return (
-    <React.Fragment>
+    <>
       <Articles /> 
-    </React.Fragment>
+      <CssBaseline/>
+    </>
   );
 }
 
