@@ -90,15 +90,6 @@ export default function CustomizedDialogs(props) {
                             />
                         </Box>
 
-                        <Box>
-                            <TextField
-                                name="addCommentText"
-                                value={props.addCommentText}
-                                multiline
-                                onChange={props.updateFormField}
-                                placeholder="Enter Comment"
-                            />
-                        </Box>
                         <Button size="small"
                             onClick={props.addComment}>Post Comment</Button>
                 </Typography>

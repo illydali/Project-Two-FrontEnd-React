@@ -58,7 +58,22 @@ export default function ArticleInfo(props) {
                                                     </Button>
 
                                                 </CardActions>
+                                                <Divider color='secondary'> Ingredients </Divider>
+                                                {
+                                                    a.ingredients.map((i, ind) =>
+                                                        <Box sx={{
+                                                            padding: '1rem',
+
+                                                        }}
+                                                            key={ind}>
+                                                            <Typography variant='body2' component='p' >
+                                                                <span>{i} </span>
+                                                            </Typography>
+                                                        </Box>
+                                                    )}
+
                                                 <Divider color='secondary'> Instructions </Divider>
+                                            
                                                 {
                                                     a.instructions.map((i, ind) =>
                                                         <Box sx={{

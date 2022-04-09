@@ -1,8 +1,8 @@
 import React from 'react'
 import {
     Button, Container, TextField, Typography, FormControl, InputLabel,
-    MenuItem, Select, Box, RadioGroup, FormLabel, FormControlLabel, Radio,
-    FormGroup, Grid
+    MenuItem, Select, Box, RadioGroup, FormLabel, FormHelperText, Radio,
+    FormGroup, Grid, Checkbox
 
 } from '@mui/material'
 
@@ -10,164 +10,223 @@ import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import MyTheme from './MyTheme';
 import { ThemeProvider } from '@emotion/react';
 
+const skin_concern = [
+    {
+        'type': 'Dry',
+        'value': 'dry'
+    }, {
+        'type': 'Combination',
+        'value': 'combination'
+    },
+    {
+        'type': 'Acne',
+        'value': 'acne'
+    },
+    {
+        'type': 'Oily',
+        'value': 'Oily'
+    }, {
+        'type': 'Sensitive',
+        'value': 'sensitive'
+    }
+]
+
+
 export default function ContributeForm(props) {
 
-    // const [error, setError] = useState(false);
-    //   const [selectedValue, setSelectedValue] = useState(null);
-    //   const handleChange = (event) => {
-    //     setTime(event.target.value);
-    //   };
+    const body_tags = [
+        {
+            'name': 'Face',
+            'value': 'face'
+        },
+        {
+            'name': 'Hands',
+            'value': 'hands'
+        },
+        {
+            'name': 'Lips',
+            'value': 'lips'
+        }
+    ]
 
+
+
+    function renderBodyTags() {
+        return body_tags.map(e => {
+            return <MenuItem key={e.value}
+                color="secondary"
+                value={e.value}
+                name={e.value}
+                label={e.value} > {e.name}
+            </MenuItem>
+        })
+    }
+
+    function renderSkinOption() {
+        return skin_concern.map(e => {
+            return <React.Fragment key={e.type}>
+                <Checkbox
+                    name="formSkinOptions"
+                    value={e.type}
+                    onChange={props.handleCheckbox}
+                    checked={props.formSkinOptions.includes(e.type)}
+                    size='small'
+                // sx={{ '& .MuiSvgIcon-root': { fontSize: 16 } }}
+                /> {e.type}
+            </React.Fragment>
+        })
+    }
 
     return (
         <Container>
             <Grid container>
-            <ThemeProvider theme={MyTheme}>
-               
-                <Typography
-                    sx={{ padding: '1rem' }} variant='h4' component='h1' color='text.primary'>Contribute to our Collection</Typography>
-                <FormControl noValidate autoComplete='off' fullWidth>
-                    <TextField
-                        variant='outlined'
-                        color='secondary'
-                        fullWidth
-                        required
-                        label='Title'
-                        name='form_title'
-                        value={props.form_title}
-                        onChange={props.updateFormField}
-                        error={!props.errorMessage.title}
-                        helperText={props.errorMessage.title && props.errorMessage.title}
-                    />
-                    <br />
-                   
-                    <TextField
-                        variant='outlined'
-                        color='secondary'
-                        fullWidth
-                        label='Email'
-                        name='form_email'
-                        value={props.form_email}
-                        onChange={props.updateFormField}
-                    />
-                    <br />
-                    <TextField
-                        variant='outlined'
-                        color='secondary'
-                        fullWidth
-                        label='Description'
-                        name='form_description'
-                        value={props.form_description}
-                        onChange={props.updateFormField}
-                    />
-                    <br />
-                    <TextField
-                        variant='outlined'
-                        color='secondary'
-                        fullWidth
-                        label='Image URL'
-                        name='form_image'
-                        value={props.form_image}
-                        onChange={props.updateFormField}
-                    />
-                    <br />
-                    <TextField
-                        variant='outlined'
-                        color='secondary'
-                        fullWidth
-                        label='Instructions'
-                        name='form_instructions'
-                        value={props.form_instructions}
-                        onChange={props.updateFormField}
-                    />
-                    <br />
+                <ThemeProvider theme={MyTheme}>
 
-                    <FormControl  >
-                        {/* <InputLabel id="select-label" select>Ingredients</InputLabel>
-                        <Select
-                            labelId="select-label"
-                            id="simple-select"
-                            fullWidth
-                            value={props.ingredients_tag}
-                            name='ingredients_tag'
-                            label="Ingredients"
-                            onChange={props.updateFormField}
-                        >
-                            {props.ingredients.map((e) => (
-                                <MenuItem key={e._id} value={e.name}>{e.name}</MenuItem>
-
-                            ))}
-
-                        </Select> */}
+                    <Typography
+                        sx={{ padding: '1rem' }} variant='h4' component='h1' color='text.primary'>Contribute to our Collection</Typography>
+                    <FormControl noValidate autoComplete='off' fullWidth>
                         <TextField
                             variant='outlined'
                             color='secondary'
                             fullWidth
-                            label='Ingredients'
-                            name='form_ingredients'
-                            value={props.form_ingredients}
+                            required
+                            label='Title'
+                            name='form_title'
+                            value={props.form_title}
                             onChange={props.updateFormField}
-                            helperText='Separate by commas'
+                            error={!props.errorForm.title[0]}
+                            helperText={props.errorForm.title[1]}
+
                         />
+                        <br />
 
-                    </FormControl>
-                    <br />
-                    <FormControl sx={{ flexDirection: "row" }}>
-                        <FormLabel id="skin_concern">Skin Type</FormLabel>
-                        <RadioGroup
-                            aria-labelledby="skin_concern"
+                        <TextField
+                            variant='outlined'
+                            color='secondary'
+                            fullWidth
+                            label='Email'
+                            name='form_email'
+                            value={props.form_email}
                             onChange={props.updateFormField}
-                            // defaultValue="sensitive"
-                            name="form_skin_concern"
-                            value={props.form_skin_concern}
+                        />
+                        <br />
+                        <TextField
+                            variant='outlined'
+                            color='secondary'
+                            fullWidth
+                            label='Description'
+                            name='form_description'
+                            value={props.form_description}
+                            onChange={props.updateFormField}
+                            error={!props.errorForm.description[0]}
+                            helperText={props.errorForm.description[1]}
+                        />
+                        <br />
+                        <TextField
+                            variant='outlined'
+                            color='secondary'
+                            fullWidth
+                            label='Image URL'
+                            name='form_image'
+                            value={props.form_image}
+                            onChange={props.updateFormField}
+                            error={!props.errorForm.image[0]}
+                            helperText={props.errorForm.image[1]}
+                        />
+                        <br />
+                        <TextField
+                            variant='outlined'
+                            color='secondary'
+                            fullWidth
+                            label='Instructions'
+                            name='form_instructions'
+                            value={props.form_instructions}
+                            onChange={props.updateFormField}
+                            error={!props.errorForm.instructions[0]}
+                            helperText={props.errorForm.instructions[1]}
+                        />
+                        <br />
 
-                        >
-                            <FormControlLabel color="secondary" value="dry" control={<Radio />} label="Dry" />
-                            <FormControlLabel color="secondary" value="oily" control={<Radio />} label="Oily" />
-                            <FormControlLabel color="secondary" value="sensitive" control={<Radio />} label="Sensitive" />
-                            <FormControlLabel color="secondary" value="acne" control={<Radio />} label="Acne" />
-                        </RadioGroup>
+                        <FormControl  >
+
+                            <TextField
+                                variant='outlined'
+                                color='secondary'
+                                fullWidth
+                                label='Ingredients'
+                                name='form_ingredients'
+                                value={props.form_ingredients}
+                                onChange={props.updateFormField}
+                                placeholder='Separate by commas'
+                                helperText={props.errorForm.ingredients[1]}
+                                error={!props.errorForm.ingredients[0]}
+
+                            />
+
+                        </FormControl>
+                        <br />
+                        <TextField
+                            variant='outlined'
+                            color='secondary'
+                            fullWidth
+                            label='Duration'
+                            name='form_duration'
+                            autoComplete='off'
+                            placeholder='Input duration in minutes: Eg, 30'
+                            value={props.form_duration}
+                            onChange={props.updateFormField}
+                            error={!props.errorForm.duration[0]}
+                            helperText={props.errorForm.duration[1]}
+                        />
+                        <br />
+                        <FormControl component="fieldset" variant="standard" error={!props.errorForm.skin_concern[0]} >
+                            <Box sx={{ m: 1 }}>
+                                <FormGroup
+                                    sx={{ display: 'flex', flexDirection: "row" }}
+                                >
+                                    <FormLabel id="checkbox-group-label" >SkinType: </FormLabel>
+                                    <Box>
+                                        {renderSkinOption()}
+                                    </Box>
+                                </FormGroup>
+                                <FormHelperText>{props.errorForm.skin_concern[1]}</FormHelperText>
+                            </Box>
+                        </FormControl>
+
+                        <br />
+
+                        <Box sx={{ paddingTop: '1rem' }}>
+                            <FormControl fullWidth
+                                error={!props.errorForm.body_tags[0]}
+                            >
+                                <InputLabel id="simple-select-label">Select Body Tags</InputLabel>
+                                <Select
+                                    value={props.form_body_tags}
+                                    label="Body Tags"
+                                    name="form_body_tags"
+                                    onChange={props.updateFormField}
+                                >
+                                    {renderBodyTags()}
+                                </Select>
+                                <FormHelperText>{props.errorForm.body_tags[1]}</FormHelperText>
+                            </FormControl>
+                        </Box>
+
+                        <Box sx={{ p: 1 }}>
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                endIcon={<DoubleArrowIcon />}
+                                size="small"
+                                type="submit"
+                                onClick={
+                                    props.addContributeForm}
+                            > Submit </Button>
+                        </Box>
                     </FormControl>
 
-                    <br />
-                    <FormLabel id="Duration" htmlFor='Duration'>Select Duration</FormLabel>
-                    <Select
-                        aria-labelledby="Duration"
-                        onChange={props.updateFormField}
-                        // defaultValue=''
-                        name="form_duration"
-                        value={''}
-
-                    >
-                        <MenuItem color="secondary" value="10mins or less" label="10mins or less" > 10 Mins or Less </MenuItem>
-                        <MenuItem color="secondary" value="10mins to 20mins" label="10mins to 20mins" > Between 10 to 20 Mins </MenuItem>
-                        <MenuItem color="secondary" value="20mins and above" label="20mins and above" > 20 Mins and Above </MenuItem>
-
-                    </Select>
-                    <TextField
-                        variant='outlined'
-                        color='secondary'
-                        fullWidth
-                        label='Which part is this for?'
-                        name='form_body_tags'
-                        value={props.body_tags}
-                        onChange={props.updateFormField}
-                    />
-                    <Box>
-                        <Button
-                            variant="contained"
-                            color="secondary"
-                            endIcon={<DoubleArrowIcon />}
-                            size="small"
-                            type="submit"
-                            onClick={
-                                props.addContributeForm}
-                        > Submit </Button>
-                    </Box>
-                </FormControl>
-
-            </ThemeProvider>
-            </Grid>                        
+                </ThemeProvider>
+            </Grid>
         </Container >
 
     )

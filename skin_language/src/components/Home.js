@@ -2,7 +2,7 @@ import React from 'react'
 import Collage from './Collage'
 import {
     Typography, Box, Container, FormControl, MenuItem, Select, InputLabel, TextField, Button,
-    FormLabel, Radio, FormGroup, Card, CardHeader, CardMedia, CardContent,
+    FormLabel, Grid, FormGroup, Card, CardHeader, CardMedia, CardContent,
     Divider, CardActions, Checkbox, Paper, InputBase, IconButton
 } from '@mui/material'
 
@@ -45,6 +45,21 @@ const body_tags = [
     }
 ]
 
+const duration = [
+    {
+        'name': '10mins or less',
+        'value': '10mins or less'
+    },
+    {
+        'name': '10mins to 20mins',
+        'value': '10mins to 20mins'
+    },
+    {
+        'name': '20mins and above',
+        'value': '20mins and above'
+    }
+]
+
 export default function Home(props) {
 
     function renderBodyTags() {
@@ -66,9 +81,21 @@ export default function Home(props) {
                     value={e.type}
                     onChange={props.handleCheckbox}
                     checked={props.skinOptions.includes(e.type)}
-                    sx={{ '& .MuiSvgIcon-root': { fontSize: 16 } }}
+                    size='small'
+                // sx={{ '& .MuiSvgIcon-root': { fontSize: 16 } }}
                 /> {e.type}
             </React.Fragment>
+        })
+    }
+
+    function renderDuration() {
+        return duration.map(e => {
+            return <MenuItem key={e.value}
+                color="secondary"
+                value={e.value}
+                name={e.value}
+                label={e.value} > {e.name}
+            </MenuItem>
         })
     }
 
@@ -123,12 +150,12 @@ export default function Home(props) {
 
                 <Box marginTop={3}
                     // hide hero image for now when in xs and sm size
-                    sx={{ display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' }  }}>
+                    sx={{ display: { xs: 'none', sm: 'flex', md: 'flex', lg: 'flex' } }}>
                     <img src='https://www.lofficielusa.com/_next/image?url=https%3A%2F%2Fwww.datocms-assets.com%2F39109%2F1615281388-1615215455766079-shutterstock763875802.jpg%3Fauto%3Dformat%252Ccompress%26cs%3Dsrgb&w=3840&q=75'
                         alt=''
                         height={450}
                         width={"auto"} />
-                    <Collage />
+                    {/* <Collage /> */}
 
                 </Box>
                 <Box sx={{ paddingTop: '3rem' }}>
@@ -145,11 +172,13 @@ export default function Home(props) {
                     </TextField>
                 </Box>
 
-                <Box sx={{ paddingTop: '1rem' }}>
-                    <FormControl sx={{ flexDirection: { xs: "column", sm: "row" } }}>
-                        <InputLabel id="imple-select-label">Body</InputLabel>
-                        <Select sx={{ minWidth: 450 }}
-                       
+                <Box sx={{ paddingTop: '1rem', display: { xs: 'row', sm: 'flex', md: 'flex', lg: 'flex' } }}>
+                    <FormControl fullWidth
+                    // sx={{ flexDirection: { xs: "column", sm: "row" } }}
+                    >
+                        <InputLabel id="simple-select-label">Search via Body Tags</InputLabel>
+                        <Select
+
                             value={props.body_tags}
                             label="Body Tags"
                             name="body_tags"
@@ -158,18 +187,36 @@ export default function Home(props) {
                             {renderBodyTags()}
                         </Select>
                     </FormControl>
-                </Box>
-                <Box>
+
+                    <FormControl fullWidth 
+                    // sx={{ flexDirection: { xs: "column", sm: "row" } }}
+                    >
+                        
+                            <InputLabel id="simple-select-label">Search via Duration</InputLabel>
+                            <Select
+
+                                value={props.duration}
+                                label="Duration"
+                                name="duration"
+                                onChange={props.updateFormField}
+                            >
+                                {renderDuration()}
+
+                            </Select>
+                      
+                    </FormControl>
+
                     <FormControl component="fieldset" variant="standard" >
-                        <Box sx={{ m: 1}}>
-                        <FormGroup sx={{display: 'flex', flexDirection: "row"}} >
-                            <FormLabel id="checkbox-group-label" sx={{ p: 1 }}>SkinType: </FormLabel>
-                            {renderSkinOption()}
-                        </FormGroup>
+                        <Box sx={{ m: 1 }}>
+                            <FormGroup sx={{ display: 'flex', flexDirection: "row" }} >
+                                <FormLabel id="checkbox-group-label" >SkinType: </FormLabel>
+                                <Box>
+                                    {renderSkinOption()}
+                                </Box>
+                            </FormGroup>
                         </Box>
                     </FormControl>
                 </Box>
-
                 <Button
                     variant="contained"
                     color="secondary"

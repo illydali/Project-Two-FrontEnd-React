@@ -29,7 +29,7 @@ export default function EditArticle(props) {
                             value={props.form_title}
                             onChange={props.updateFormField}
                         > {props.form_title}
-                            </TextField>
+                        </TextField>
                         <br />
                         <TextField
                             variant='outlined'
@@ -56,94 +56,28 @@ export default function EditArticle(props) {
                             color='secondary'
                             fullWidth
                             label='Instructions'
-                            name='form_instuctions'
+                            name='form_instructions'
                             value={props.form_instructions}
                             onChange={props.updateFormField}
                         />
                         <br />
 
-                        <FormControl  >
-                            {/* <InputLabel id="select-label" select>Ingredients</InputLabel>
-                        <Select
-                            labelId="select-label"
-                            id="simple-select"
-                            fullWidth
-                            value={props.ingredients_tag}
-                            name='ingredients_tag'
-                            label="Ingredients"
-                            onChange={props.updateFormField}
-                        >
-                            {props.ingredients.map((e) => (
-                                <MenuItem key={e._id} value={e.name}>{e.name}</MenuItem>
 
-                            ))}
-
-                        </Select> */}
-                            {/* <TextField
-                                variant='outlined'
-                                color='secondary'
-                                fullWidth
-                                label='Ingredients'
-                                name='form_ingredients'
-                                value={props.form_ingredients}
-                                onChange={props.updateFormField}
-                            />
-                            <TextField
-                                variant='outlined'
-                                color='secondary'
-                                fullWidth
-                                label='Quantity'
-                                name='form_quantity'
-                                value={props.form_quantity}
-                                onChange={props.updateFormField}
-                            /> */}
-                        </FormControl>
-
-                        <br />
-
-                        <FormLabel id="skin_concern">Skin Type</FormLabel>
-                        <RadioGroup
-                            aria-labelledby="skin_concern"
-                            onChange={props.updateFormField}
-                            // defaultValue="sensitive"
-                            name="form_skin_concern"
-                            value={props.form_skin_concern}
-
-                        >
-                            <FormControlLabel color="secondary" value="dry" control={<Radio />} label="Dry" />
-                            <FormControlLabel color="secondary" value="oily" control={<Radio />} label="Oily" />
-                            <FormControlLabel color="secondary" value="sensitive" control={<Radio />} label="Sensitive" />
-                            <FormControlLabel color="secondary" value="acne" control={<Radio />} label="Acne" />
-                        </RadioGroup>
-
-
-                        <br />
-                        <FormLabel id="Duration" htmlFor='Duration'>How long? </FormLabel>
-                        <Select
-                            aria-labelledby="Duration"
-                            onChange={props.updateFormField}
-                            // defaultValue="sensitive"
-                            name="form_duration"
-                            value={props.form_duration ? props.form_duration : ""}
-
-                        >
-                            <MenuItem color="secondary" value="10mins or less" label="10mins or less" > 10 Mins or Less </MenuItem>
-                            <MenuItem color="secondary" value="10mins to 20mins" label="10mins to 20mins" > Between 10 to 20 Mins </MenuItem>
-                            <MenuItem color="secondary" value="20mins and above" label="20mins and above" > 20 Mins and Above </MenuItem>
-
-                        </Select>
-                        <TextField
+                       <TextField
                             variant='outlined'
                             color='secondary'
                             fullWidth
-                            label='body_tags'
-                            name='form_body_tags'
-                            value={props.body_tags}
+                            label='Duration'
+                            name='form_duration'
+                            value={props.form_duration}
                             onChange={props.updateFormField}
-                        />
+                        /> 
+                        
+                        <br />
+
                         <Box>
                             <Button
-                                sx={{ mt:2 }}
+                                sx={{ mt: 2 }}
                                 variant="contained"
                                 color="secondary"
                                 endIcon={<DoubleArrowIcon />}
@@ -153,7 +87,7 @@ export default function EditArticle(props) {
                                     props.updateArticle}
                             > Update </Button>
                             <Button
-                                sx={{ mt:2 }}
+                                sx={{ mt: 2 }}
                                 variant="contained"
                                 color="secondary"
                                 endIcon={<DoubleArrowIcon />}

@@ -24,15 +24,15 @@ export default function MasonryImageList() {
 
 const itemData = [
   {
-    img: 'https://images.unsplash.com/photo-1549388604-817d15aa0110',
-    title: 'Bed',
+    img: 'https://www.pexels.com/photo/set-of-skincare-products-placed-on-white-table-6621462',
+    title: 'Skincare',
   },
   {
-    img: 'https://images.unsplash.com/photo-1525097487452-6278ff080c31',
-    title: 'Books',
+    img: 'https://www.pexels.com/photo/food-people-woman-hand-5927760',
+    title: 'MaskIngredient',
   },
   {
-    img: 'https://images.unsplash.com/photo-1523413651479-597eb2da0ad6',
+    img: 'https://unsplash.com/photos/x4J_92kJBoY',
     title: 'Sink',
   },
   {

@@ -10,27 +10,35 @@ import { ThemeProvider } from "@emotion/react"
 import ArticleInfo from "./ArticleInfo"
 import EditArticle from "./EditArticle"
 import CustomizedDialogs from "./DialogModal"
+import { validTitle, validImageLink, validDescription, validTags, validIngredients, validDuration, validInstructions, validSkinConcern } from "./Validate"
 
 
-
+const initialValidationState = {
+    'title': [true, ''],
+    'image' : [true, ''],
+    'description' : [true, ''],
+    'body_tags' : [true, ''],
+    'ingredients' : [true, ''],
+    'duration' : [true, ''],
+    'instructions' : [true, ''],
+    'skin_concern' : [true, '']
+}
 
 export default class Articles extends React.Component {
-    BASE_API_URL = "https://beauty-from-home.herokuapp.com";
-    // BASE_API_URL = "https://3000-illydali-projecttwoexpre-w0e88ixe9ed.ws-us38.gitpod.io"
+    // BASE_API_URL = "https://beauty-from-home.herokuapp.com";
+    BASE_API_URL = "https://3000-illydali-projecttwoexpre-w0e88ixe9ed.ws-us39.gitpod.io"
 
     state = {
         'active': 'home',
         'loaded': false,
         'allData': [],
-        'ingredients': [],
+        // 'ingredients': [],
         'skin': [],
-        'skinOptions' : [],
+        'skinOptions': [],
         'displayMore': false,
         'articleInfo': [],
         'commentsData': [],
-        'articleBeingShown' : 0,
-        errorMessage: {},
-        error: false,
+        'articleBeingShown': 0,
 
         // search 
         'title': '',
@@ -41,16 +49,15 @@ export default class Articles extends React.Component {
         'displaySearch': false,
 
         // form state for edit and add new
-        'form_user_name': '',
         'form_title': '',
         'form_email': '',
         'form_description': '',
         'form_image': '',
-        // 'form_ingredients_tag': '',
         'form_ingredients': '',
         "form_body_tags": '',
-        'form_skin_concern': '',
-        'form_duration': '',
+        'form_skin_concern': [],
+        'formSkinOptions': [],
+        'form_duration': null,
         'form_instructions': '',
         'articleIdBeingEdited': '',
 
@@ -62,7 +69,8 @@ export default class Articles extends React.Component {
         'editCommentUsername': '',
         'editCommentText': '',
         'editCommentEmail': '',
-        'displayEditComment': false
+        'displayEditComment': false,
+        'errorForm': initialValidationState
 
     }
 
@@ -72,18 +80,47 @@ export default class Articles extends React.Component {
         })
     }
 
-    validateForm = () => {
-        let isError = false;
-        if (this.state.form_title == '') {
-            isError = true;
+    validate = (formData) => {
+        this.setState({
+            errorForm: initialValidationState
+        })
 
+        let errorTitle = validTitle(formData.title)
+        let errorImage = validImageLink(formData.image)
+        let errorDescription = validDescription(formData.description)
+        let errorTags = validTags(formData.body_tags)
+        let errorIngredients = validIngredients(formData.ingredients)
+        let errorDuration = validDuration(formData.duration)
+        let errorInstructions = validInstructions(formData.instructions)
+        let errorSkin = validSkinConcern(formData.skin_concern)
+        console.log(errorTitle)
+        if (!errorTitle[0] ||
+            !errorImage[0] || 
+            !errorDescription[0] ||
+            !errorTags[0] ||
+            !errorIngredients[0] ||
+            !errorDuration[0] ||
+            !errorInstructions[0] ||
+            !errorSkin[0]
+            ) {
+            let errorData = {
+                'title': errorTitle,
+                'image' : errorImage,
+                'description' : errorDescription,
+                'body_tags' : errorTags,
+                'ingredients' : errorIngredients,
+                'duration' : errorDuration,
+                'instructions' : errorInstructions,
+                'skin_concern' : errorSkin
+            }
             this.setState({
-                error: true,
-                errorMessage: { title: 'Title cannot be blank' }
+                errorForm: errorData
             })
-        }
 
-        return isError
+            return false
+        } else {
+            return true
+        }
     }
 
     addContributeForm = async () => {
@@ -94,58 +131,42 @@ export default class Articles extends React.Component {
             description: this.state.form_description,
             ingredients: this.state.form_ingredients,
             body_tags: this.state.form_body_tags,
-            skin_concern: this.form_skin_concern,
+            skin_concern: this.state.formSkinOptions,
             duration: this.state.form_duration,
             instructions: this.state.form_instructions,
 
         }
+        console.log(formData)
+        console.log(this.state.form_title)
+        console.log(this.validate(formData))
+        if (this.validate(formData)) {
+            let response = await axios.post(this.BASE_API_URL + "/article", formData)
+            console.log(response.data)
+            // clone
+            let clone = this.state.allData.slice();
+            // modify
+            clone.push(formData);
+            // replace
 
-        let response = await axios.post(this.BASE_API_URL + "/article", formData)
-        console.log(response.data)
-
-        // clone
-        let clone = this.state.allData.slice();
-        // modify
-        clone.push(formData);
-        // replace
-
-        this.setState({
-            'active': 'listing',
-            'allData': clone
-        })
-        console.log(this.state.allData)
+            this.setState({
+                'active': 'listing',
+                'allData': clone
+            })
+        }
     }
 
     fetchData = async () => {
         let response = await axios.get(this.BASE_API_URL + "/articles")
-        
-        this.setState({
-            'allData': response.data.article
-            
-        })
-    }
-
-    fetchIngredients = async () => {
-        let response = await axios.get(this.BASE_API_URL + '/ingredients')
 
         this.setState({
-            'ingredients': response.data.ingredients
+            'allData': response.data.article,
+            'loaded' : true
+
         })
     }
-
-    // fetchSkinConcern = async () => {
-    //     let response = await axios.get(this.BASE_API_URL + '/skin')
-        
-    //     this.setState({
-    //         'skin': response.data.skin_types
-    //     })
-    //     console.log(this.state.skin)
-    // }
 
     componentDidMount() {
         this.fetchData()
-        this.fetchIngredients()
-        // this.fetchSkinConcern()
     }
 
     renderContent() {
@@ -175,14 +196,13 @@ export default class Articles extends React.Component {
                         body_tags={this.state.form_body_tags}
                         instuctions={this.state.form_instructions}
                         skin_concern={this.state.form_skin_concern}
+                        formSkinOptions={this.state.formSkinOptions}
                         updateFormField={this.updateFormField}
-                        ingredients={this.state.ingredients}
-                        ingredients_tag={this.state.form_ingredients_tag}
+                        ingredients={this.state.form_ingredients}
                         addContributeForm={this.addContributeForm}
+                        errorForm={this.state.errorForm}
+                        handleCheckbox={this.handleCheckbox}
 
-                        validateForm={this.validateForm}
-                        error={this.state.error}
-                        errorMessage={this.state.errorMessage}
                     />
                 </React.Fragment>
             );
@@ -199,7 +219,6 @@ export default class Articles extends React.Component {
                         allData={this.state.allData}
                         updateFormField={this.updateFormField}
                         ingredients={this.state.ingredients}
-                        ingredients_tag={this.state.ingredients_tag}
                         searchItem={this.state.searchItem}
                         getSearch={this.getSearch}
                         handleCheckbox={this.handleCheckbox}
@@ -258,9 +277,9 @@ export default class Articles extends React.Component {
                         form_duration={this.state.form_duration}
                         form_body_tags={this.state.form_body_tags}
                         form_instructions={this.state.form_instructions}
+                        form_ingredients={this.state.form_ingredients}
                         form_skin_concern={this.state.form_skin_concern}
                         updateFormField={this.updateFormField}
-                        form_ingredients={this.state.ingredients}
                         articleIdBeingEdited={this.state.articleIdBeingEdited}
                         updateArticle={this.updateArticle}
                         cancelEdit={this.cancelEdit}
@@ -298,14 +317,17 @@ export default class Articles extends React.Component {
                 'description': this.state.description,
                 'body_tags': this.state.body_tags,
                 'duration': this.state.duration,
-                'skin_concern' : this.state.skinOptions
+                'skin_concern': this.state.skinOptions
             }
         })
         console.log(search.data)
         this.setState({
             'searchItem': search.data,
             'displaySearch': true,
-            'title' : '',
+            'title': '',
+            'description':'',
+            'body_tags' : '',
+            'duration': '',
             'skinOptions': []
 
         })
@@ -315,7 +337,12 @@ export default class Articles extends React.Component {
     refreshSearch = async () => {
         this.setState({
             'searchItem': '',
-            'displaySearch': false
+            'displaySearch': false,
+            'title': '',
+            'description':'',
+            'body_tags' : '',
+            'duration': '',
+            'skinOptions': []
         })
     }
 
@@ -329,22 +356,23 @@ export default class Articles extends React.Component {
             'articleInfo': results.data,
             'displayMore': true,
             'active': 'view',
-            'articleBeingShown' : articleId
+            'articleBeingShown': articleId
         })
     }
 
     editArticle = async (id) => {
-        let idToEdit = this.state.allData.find(function(a){
+        let idToEdit = this.state.allData.find(function (a) {
             return a._id === id
         })
         console.log(idToEdit)
-        
+
         this.setState({
             'active': 'edit',
+            displayMore: false,
             'form_title': idToEdit.title,
             'form_description': idToEdit.description,
             'form_image': idToEdit.image,
-            'form_duration': idToEdit.title,
+            'form_duration': idToEdit.duration,
             'form_instructions': idToEdit.instructions,
             'articleIdBeingEdited': idToEdit._id
 
@@ -363,14 +391,34 @@ export default class Articles extends React.Component {
 
         let articleIdBeingEdited = this.state.articleIdBeingEdited
         console.log(articleIdBeingEdited)
-        let update = await axios.put(this.BASE_API_URL + '/article/' + articleIdBeingEdited, newData)
+        let update = await axios.patch(this.BASE_API_URL + '/article/' + articleIdBeingEdited, newData)
         console.log(update.data)
 
         let indexToReplace = this.state.allData.findIndex((data) => {
             return data._id === articleIdBeingEdited
         })
-        let editedArticle = { ...this.state.allData[indexToReplace] }
-        editedArticle = { ...newData }
+        // let editedArticle = { ...this.state.allData[indexToReplace] }
+        // editedArticle = { ...newData }
+
+        // let cloned = [
+        //     // put in the tasks before the index to replace
+        //     ...this.state.allData.slice(0, indexToReplace),
+        //     editedArticle,
+        //     ...this.state.allData.slice(indexToReplace + 1)
+
+        // ]
+
+        // let indexToReplace = this.state.commentsData.findIndex((e) => {
+        //     return e._id === commentIdToUpdate
+        // })
+
+        let editedArticle = {
+            title: this.state.form_title,
+            image: this.state.form_image,
+            description: this.state.form_description,
+            instructions: this.state.form_instructions,
+            duration: this.state.form_duration
+        }
 
         let cloned = [
             // put in the tasks before the index to replace
@@ -380,25 +428,34 @@ export default class Articles extends React.Component {
 
         ]
 
+        
+
         this.setState({
-            'active': 'listing',
-            'allData': cloned
+            'active': 'view',
+            'allData': cloned,
+            displayMore: true,
+            'articleIdBeingEdited': '',
+            'form_title': '',
+            'form_description': '',
+            'form_image': '',
+            'form_duration': '',
+            'form_instructions': '',
         })
 
     }
 
     cancelEdit = async () => {
         this.setState({
-            'active': 'listing',
-            'articleIdBeingEdite' : '',
+            'active': 'view',
+            'articleIdBeingEdited': '',
             displayEditComment: false
         })
-       
+
     }
 
     handleDelete = async (id) => {
-        
-        let idToDelete = this.state.allData.find(function(a){
+
+        let idToDelete = this.state.allData.find(function (a) {
             return a._id === id
         })
         await axios.delete(this.BASE_API_URL + '/article/' + idToDelete)
@@ -453,7 +510,7 @@ export default class Articles extends React.Component {
     }
 
     editComment = (id, username, text, email) => {
-        let idToEdit = this.state.commentsData.find(function(c){
+        let idToEdit = this.state.commentsData.find(function (c) {
             return c._id === id
         })
         console.log(idToEdit)
@@ -483,12 +540,12 @@ export default class Articles extends React.Component {
         console.log(newData.data)
         console.log(commentIdToUpdate)
 
-        let indexToReplace = this.state.commentsData.findIndex((e)=>{
+        let indexToReplace = this.state.commentsData.findIndex((e) => {
             return e._id === commentIdToUpdate
         })
 
-        let modifiedTask =  {
-            _id : this.state.commentsData[indexToReplace]._id,
+        let modifiedTask = {
+            _id: this.state.commentsData[indexToReplace]._id,
             text: this.state.editCommentText,
             username: this.state.editCommentUsername,
         }
@@ -497,7 +554,7 @@ export default class Articles extends React.Component {
             // put in the tasks before the index to replace
             ...this.state.commentsData.slice(0, indexToReplace),
             modifiedTask,
-            ...this.state.commentsData.slice(indexToReplace+1)
+            ...this.state.commentsData.slice(indexToReplace + 1)
 
         ]
 
@@ -524,7 +581,7 @@ export default class Articles extends React.Component {
         // cloning comments array
         let cloned = this.state.commentsData.slice();
         // modify the array
-        let indexToDelete = this.state.commentsData.findIndex((i)=>{
+        let indexToDelete = this.state.commentsData.findIndex((i) => {
             return i._id === deleteCommentId
         })
         // remove from array
