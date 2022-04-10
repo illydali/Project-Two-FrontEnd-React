@@ -23,8 +23,8 @@ const initialValidationState = {
 }
 
 export default class Articles extends React.Component {
-    // BASE_API_URL = "https://beauty-from-home.herokuapp.com";
-    BASE_API_URL = "https://3000-illydali-projecttwoexpre-w0e88ixe9ed.ws-us39.gitpod.io"
+    BASE_API_URL = "https://beauty-from-home.herokuapp.com";
+    // BASE_API_URL = "https://3000-illydali-projecttwoexpre-w0e88ixe9ed.ws-us39.gitpod.io"
 
     state = {
         'active': 'home',
@@ -306,7 +306,7 @@ export default class Articles extends React.Component {
         })
 
     }
-    
+
     handleDelete = async (id) => {
 
         let idToDelete = this.state.allData.find(function (a) {
