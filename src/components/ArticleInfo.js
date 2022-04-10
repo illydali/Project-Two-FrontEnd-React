@@ -14,7 +14,7 @@ import MyTheme from './MyTheme';
 
 
 export default function ArticleInfo(props) {
-    
+
     return (
         <>
             <Container >
@@ -34,7 +34,7 @@ export default function ArticleInfo(props) {
                                                 action={
                                                     <Button aria-label="delete"
                                                         onClick={() => { props.handleDelete(a._id) }}
-                                                        >
+                                                    >
                                                         <DeleteForeverIcon />
 
                                                     </Button>
@@ -161,6 +161,7 @@ export default function ArticleInfo(props) {
                                                                 />
                                                             </Form.Group>
                                                             <Button size="small" variant="contained"
+                                                                color='info'
                                                                 onClick={props.addComment}
                                                                 style={{ display: props.displayEditComment === false ? 'inline-block' : 'none' }}
                                                             >Add Comment</Button>
@@ -200,7 +201,7 @@ export default function ArticleInfo(props) {
                                                             </Form.Group>
                                                             <Form.Group className="mb-3" controlId="formBasicEmail">
 
-                                                                <Form.Control 
+                                                                <Form.Control
                                                                     type="email"
                                                                     placeholder="Enter Email"
                                                                     name="editCommentEmail"
@@ -210,10 +211,12 @@ export default function ArticleInfo(props) {
                                                                 />
                                                             </Form.Group>
                                                             <Button size="small" variant="contained"
+                                                                color='info'
                                                                 onClick={props.addComment}
                                                                 style={{ display: props.displayEditComment === false ? 'inline-block' : 'none' }}
                                                             >Add Comment</Button>
                                                             <Button size="small" variant="contained"
+                                                                color='info'
                                                                 onClick={props.updateComment}
                                                                 style={{ display: props.displayEditComment === true ? "inline-block" : "none" }}
                                                             >Save Changes</Button>

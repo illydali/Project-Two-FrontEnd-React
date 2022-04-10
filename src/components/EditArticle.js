@@ -1,4 +1,4 @@
-import {React} from "react";
+import { React } from "react";
 
 import {
     Button, Container, TextField, Typography, FormControl, Box,
@@ -9,7 +9,7 @@ import { ThemeProvider } from '@emotion/react'
 
 export default function EditArticle(props) {
     const handleFocus = (event) => event.target.select();
- 
+
     return (
         <>
             <Container>
@@ -82,6 +82,7 @@ export default function EditArticle(props) {
 
                         <Box>
                             <Button
+                                color='info'
                                 sx={{ mt: 1 }}
                                 variant="contained"
                                 endIcon={<ArrowRightIcon />}
@@ -92,6 +93,7 @@ export default function EditArticle(props) {
                             > Update </Button>
                             <Button
                                 sx={{ mt: 1, ml: 1 }}
+                                color='info'
                                 variant="contained"
                                 endIcon={<ArrowRightIcon />}
                                 size="small"
