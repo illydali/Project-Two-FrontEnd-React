@@ -49,7 +49,7 @@ export default function ArticleInfo(props) {
                                                 image={a.image}
                                                 alt={a.title} />
                                             <CardContent>
-                                                <Typography variant='body1' color='text.primary' component='main'>
+                                                <Typography variant='body1' color='text.primary' component='section'>
                                                     <Box sx={{padding:'1rem'}}>The Why: {a.description}</Box>
                                                     <br />
                                                     <Box sx={{padding:'1rem'}}>Time needed: {a.duration} mins</Box>

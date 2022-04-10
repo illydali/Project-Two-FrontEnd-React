@@ -30,7 +30,6 @@ export default class Articles extends React.Component {
         'active': 'home',
         'loaded': false,
         'allData': [],
-        // 'ingredients': [],
         'skin': [],
         'skinOptions': [],
         'displayMore': false,
@@ -282,8 +281,6 @@ export default class Articles extends React.Component {
 
         ]
 
-
-
         this.setState({
             'active': 'view',
             'allData': cloned,
@@ -308,15 +305,20 @@ export default class Articles extends React.Component {
     }
 
     handleDelete = async (id) => {
-
-        let idToDelete = this.state.allData.find(function (a) {
-            return a._id === id
+        console.log(id)
+        
+        await axios.delete(this.BASE_API_URL + '/article/' + id)
+        let cloned = this.state.allData.slice();
+        // modify the array
+        let indexToDelete = this.state.allData.findIndex((i) => {
+            return i._id === id
         })
-        await axios.delete(this.BASE_API_URL + '/article/' + idToDelete)
-        this.fetchData()
+        // remove from array
+        cloned.splice(indexToDelete, 1);
+
         this.setState({
             'active': "listing",
-
+            'allData' : cloned
         })
     }
 

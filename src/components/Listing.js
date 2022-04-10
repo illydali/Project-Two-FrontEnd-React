@@ -1,7 +1,7 @@
 import React from 'react'
 import {
     Container, Typography, Box, Card, CardHeader, CardMedia, CardContent,
-    CardActions, Button, CardActionArea, Grid
+    CardActions, Button, Grid
 } from '@mui/material'
 
 import IconButton from '@mui/material/IconButton'
@@ -49,7 +49,7 @@ export default function Listing(props) {
                                                 image={each.image}
                                                 alt={each.title} />
                                             <CardContent>
-                                                <Typography variant='body1' color='text.primary' component='p'>
+                                                <Typography variant='body1' color='text.primary' component='section'>
                                                 <Box sx={{padding:'1rem'}}>The Why: {each.description}</Box>
                                                     <Box sx={{padding:'1rem'}}>Time needed: {each.duration} mins</Box>
 

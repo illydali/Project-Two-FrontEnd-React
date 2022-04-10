@@ -140,6 +140,7 @@ export default function ContributeForm(props) {
                             name='form_instructions'
                             value={props.form_instructions}
                             onChange={props.updateFormField}
+                            placeholder='Separate by commas'
                             error={!props.errorForm.instructions[0]}
                             helperText={props.errorForm.instructions[1]}
                         />
