@@ -114,7 +114,7 @@ export default function Home(props) {
                                 date={each.date} />
                             <CardMedia
                                 component='img'
-                                height='194'
+                                height='200'
                                 image={each.image}
                                 alt={each.image} />
                             <CardContent>

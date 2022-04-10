@@ -2,7 +2,8 @@
 
 Access live link: https://skin-language.netlify.app/
 
-A MERN stack project for Trent Global College. Backend github link - https://github.com/illydali/Project-Two-Express 
+A MERN stack project for Trent Global College. 
+Backend github link - https://github.com/illydali/Project-Two-Express 
 
 # Strategy
 
@@ -27,7 +28,7 @@ Allow users to have access to a crowd-sourced website where they can easily filt
 - Search filters for finding by skin type, body parts or duration
 - User contributions
     - Submitting an article
-    - Editing c=selected portions of article
+    - Editing selected portions of article
     - Allowing delete of an article
     - Adding in comments
     - Editing of comments

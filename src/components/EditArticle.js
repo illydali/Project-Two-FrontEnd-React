@@ -82,9 +82,9 @@ export default function EditArticle(props) {
 
                         <Box>
                             <Button
-                                color='info'
-                                sx={{ mt: 1 }}
-                                variant="contained"
+                                color='primary'
+                                sx={{ mt: 1}}
+                                variant="outlined"
                                 endIcon={<ArrowRightIcon />}
                                 size="small"
                                 type="submit"
@@ -92,9 +92,9 @@ export default function EditArticle(props) {
                                     props.updateArticle}
                             > Update </Button>
                             <Button
-                                sx={{ mt: 1, ml: 1 }}
-                                color='info'
-                                variant="contained"
+                                sx={{ mt: 1, ml: 1, color:'info'}}
+                                
+                                variant="outlined"
                                 endIcon={<ArrowRightIcon />}
                                 size="small"
                                 type="submit"

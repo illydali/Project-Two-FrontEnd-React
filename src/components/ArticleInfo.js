@@ -45,17 +45,17 @@ export default function ArticleInfo(props) {
 
                                             <CardMedia
                                                 component='img'
-                                                height='200'
+                                                height='250'
                                                 image={a.image}
                                                 alt={a.title} />
                                             <CardContent>
                                                 <Typography variant='body1' color='text.primary' component='main'>
-                                                    The Why: {a.description}
+                                                    <Box sx={{padding:'1rem'}}>The Why: {a.description}</Box>
                                                     <br />
-                                                    Time: {a.duration} mins
+                                                    <Box sx={{padding:'1rem'}}>Time needed: {a.duration} mins</Box>
                                                     <br />
-                                                    Submitted: {moment(a.date).format('dddd, MMMM Do YYYY')}
-
+                                                    <Box sx={{padding:'1rem'}}>Submitted: {moment(a.date).format('dddd, MMMM Do YYYY')}
+                                                    </Box>
                                                 </Typography>
                                                 <CardActions>
                                                     <Button size="small"
@@ -160,16 +160,16 @@ export default function ArticleInfo(props) {
                                                                     autoComplete="false"
                                                                 />
                                                             </Form.Group>
-                                                            <Button size="small" variant="contained"
-                                                                color='info'
+                                                            <Button size="small" variant="outlined"
+                                                                color='primary'
                                                                 onClick={props.addComment}
                                                                 style={{ display: props.displayEditComment === false ? 'inline-block' : 'none' }}
                                                             >Add Comment</Button>
-                                                            <Button sx={{ paddingRight: 1 }} size="small" variant="contained"
+                                                            <Button sx={{ paddingRight: 1 }} size="small" variant="outlined"
                                                                 onClick={props.updateComment}
                                                                 style={{ display: props.displayEditComment === true ? "inline-block" : "none" }}
                                                             >Save Changes</Button>
-                                                            <Button size="small" variant="contained"
+                                                            <Button size="small" variant="outlined" color='primary'
                                                                 onClick={props.cancelEdit}
                                                                 style={{ display: props.displayEditComment === true ? "inline-block" : "none" }}
                                                             >Cancel </Button>
@@ -210,17 +210,17 @@ export default function ArticleInfo(props) {
                                                                     autoComplete="false"
                                                                 />
                                                             </Form.Group>
-                                                            <Button size="small" variant="contained"
-                                                                color='info'
+                                                            <Button size="small" color='primary'
+                                                                variant="outlined"
                                                                 onClick={props.addComment}
                                                                 style={{ display: props.displayEditComment === false ? 'inline-block' : 'none' }}
                                                             >Add Comment</Button>
-                                                            <Button size="small" variant="contained"
-                                                                color='info'
+                                                            <Button size="small" variant="outlined"
+                                                                color='primary'
                                                                 onClick={props.updateComment}
                                                                 style={{ display: props.displayEditComment === true ? "inline-block" : "none" }}
                                                             >Save Changes</Button>
-                                                            <Button size="small" variant="contained"
+                                                            <Button size="small" variant="outlined"
                                                                 onClick={props.cancelEdit}
                                                                 style={{ display: props.displayEditComment === true ? "inline-block" : "none" }}
                                                             >Cancel </Button>

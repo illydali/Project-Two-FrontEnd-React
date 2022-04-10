@@ -45,15 +45,13 @@ export default function Listing(props) {
                                             />
                                             <CardMedia
                                                 component='img'
-                                                height='194'
+                                                height='200'
                                                 image={each.image}
                                                 alt={each.title} />
                                             <CardContent>
                                                 <Typography variant='body1' color='text.primary' component='p'>
-                                                    The Why: {each.description}
-                                                    <br />
-                                                    <br />
-                                                    Time: {each.duration} mins
+                                                <Box sx={{padding:'1rem'}}>The Why: {each.description}</Box>
+                                                    <Box sx={{padding:'1rem'}}>Time needed: {each.duration} mins</Box>
 
                                                 </Typography>
                                                 <CardActions>
