@@ -10,7 +10,7 @@ Allow users to have access to a crowd-sourced website where they can easily filt
 
 ## Site Owner’s Goals
 - As a website owner, I want to have a dynamic space for users of my website to check out and add new recipes that they may have tried. 
-- As a website owener, I want users to be able to add their comments for each recipe. 
+- As a website owner, I want users to be able to add their comments for each recipe. 
 
 ## User Goals
 - As a user of the website, I want to be able to easily find beauty recipes for homemade facial masks so that I can save time.
@@ -57,7 +57,7 @@ Colors selected to relate to skin and gies off a calming effect when using the w
 ![Color Palette Theme](/public/images/Skin_Lang_Color_Palette.png?raw=true "Color Palette Theme")
 
 ## Font
-Font selected is Roboto[https://fonts.google.com/specimen/Roboto]
+Font selected is [Roboto](https://fonts.google.com/specimen/Roboto)
 
 ## Testing
 ### Landing Page 
@@ -108,4 +108,5 @@ Font selected is Roboto[https://fonts.google.com/specimen/Roboto]
 - Pexels.com 
 - Unsplash.com
 - Stack overflow 
-- Paul Chor 
+- [Paul Chor](https://github.com/kunxin-chor)
+- [Ace Ang](https://github.com/99Ace)
