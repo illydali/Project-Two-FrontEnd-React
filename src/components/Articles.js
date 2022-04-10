@@ -593,18 +593,18 @@ export default class Articles extends React.Component {
 
                             {/* <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}> */}
                             <Button
-                                color="inherit" onClick={() => this.setActive("listing")}>Browse</Button>
+                                color="info" onClick={() => this.setActive("listing")}>Browse</Button>
                             {/* fix logo and home button */}
 
                             <Typography variant="h5" >
-                                <Button color="inherit" onClick={() => this.setActive("home")}>
+                                <Button color="info" onClick={() => this.setActive("home")}>
                                     Skin.Lang
                                 </Button>
                             </Typography>
 
                             <Button
 
-                                color="inherit" onClick={() => this.setActive("addpost")}>Create</Button>
+                                color="info" onClick={() => this.setActive("addpost")}>Create</Button>
                             {/* </Typography> */}
 
                         </Toolbar>

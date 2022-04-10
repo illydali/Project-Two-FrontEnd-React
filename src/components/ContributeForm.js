@@ -48,7 +48,7 @@ const body_tags = [
 
 export default function ContributeForm(props) {
 
-    
+
     function renderBodyTags() {
         return body_tags.map(e => {
             return <MenuItem key={e.value}
@@ -69,7 +69,6 @@ export default function ContributeForm(props) {
                     onChange={props.handleCheckbox}
                     checked={props.formSkinOptions.includes(e.type)}
                     size='small'
-                // sx={{ '& .MuiSvgIcon-root': { fontSize: 16 } }}
                 /> {e.type}
             </React.Fragment>
         })
@@ -77,11 +76,10 @@ export default function ContributeForm(props) {
 
     return (
         <Container>
-            <Grid container>
-                <ThemeProvider theme={MyTheme}>
-
+            <ThemeProvider theme={MyTheme}>
+                <Grid container>
                     <Typography
-                        sx={{ padding: '1rem' }} variant='h4' component='h1' color='text.primary'>Contribute to our Collection</Typography>
+                        sx={{ padding: '1rem' }} variant='h3' align='center' component='h1' color='text.primary'>Contribute to our Collection</Typography>
                     <FormControl noValidate autoComplete='off' fullWidth>
                         <TextField
                             variant='outlined'
@@ -226,9 +224,8 @@ export default function ContributeForm(props) {
                             > Submit </Button>
                         </Box>
                     </FormControl>
-
-                </ThemeProvider>
-            </Grid>
+                </Grid>
+            </ThemeProvider>
         </Container >
 
     )

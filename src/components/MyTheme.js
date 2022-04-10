@@ -1,7 +1,6 @@
 import { createTheme } from '@mui/material/styles';
 
 const MyTheme = createTheme({
-    
     palette: {
         type: 'light',
         primary: {
@@ -17,7 +16,7 @@ const MyTheme = createTheme({
             main: '#eadaec',
         },
         info: {
-            main: '#adc9c5',
+            main: '#fff5ea',
         },
         text: {
             primary: '#796c6c',
@@ -26,6 +25,22 @@ const MyTheme = createTheme({
             default: '#f5ebed',
         },
     },
+    typography: {
+
+        h3: {
+            fontSize: '2.5rem',
+            fontFamily:'Roboto',
+            '@media (max-width:600px)': {
+                fontSize: '2rem',
+            }
+        },
+        h2 : {
+            fontSize: '4rem',
+            '@media (max-width:600px)': {
+                fontSize: '3rem',
+            }
+        }
+    }
 })
 
 export default MyTheme
