@@ -200,15 +200,13 @@ export default function ArticleInfo(props) {
                                                             </Form.Group>
                                                             <Form.Group className="mb-3" controlId="formBasicEmail">
 
-                                                                <Form.Control style={{ display: 'none' }}
+                                                                <Form.Control 
                                                                     type="email"
                                                                     placeholder="Enter Email"
                                                                     name="editCommentEmail"
                                                                     value={props.editCommentEmail}
                                                                     onChange={props.updateFormField}
                                                                     autoComplete="false"
-                                                                    disabled
-                                                                    readOnly
                                                                 />
                                                             </Form.Group>
                                                             <Button size="small" variant="contained"

@@ -40,6 +40,7 @@ export default function EditArticle(props) {
                             name='form_description'
                             value={props.form_description}
                             onChange={props.updateFormField}
+                            autoComplete="false"
                         />
                         <br />
                         <TextField
@@ -50,6 +51,7 @@ export default function EditArticle(props) {
                             name='form_image'
                             value={props.form_image}
                             onChange={props.updateFormField}
+                            autoComplete="false"
                         />
                         <br />
                         <TextField
@@ -61,6 +63,7 @@ export default function EditArticle(props) {
                             name='form_instructions'
                             value={props.form_instructions}
                             onChange={props.updateFormField}
+                            autoComplete="false"
                         />
                         <br />
 
