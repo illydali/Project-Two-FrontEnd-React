@@ -10,7 +10,7 @@ import MyTheme from './MyTheme';
 import { ThemeProvider } from '@emotion/react';
 
 export default function EditArticle(props) {
-
+    const handleFocus = (event) => event.target.select();
     return (
         <>
             <Container>
@@ -28,6 +28,7 @@ export default function EditArticle(props) {
                             name='form_title'
                             value={props.form_title}
                             onChange={props.updateFormField}
+                            onFocus={handleFocus}
                         > {props.form_title}
                         </TextField>
                         <br />
@@ -35,6 +36,7 @@ export default function EditArticle(props) {
                             variant='outlined'
                             color='secondary'
                             fullWidth
+                            multiline
                             label='Description'
                             name='form_description'
                             value={props.form_description}
@@ -55,6 +57,7 @@ export default function EditArticle(props) {
                             variant='outlined'
                             color='secondary'
                             fullWidth
+                            multiline
                             label='Instructions'
                             name='form_instructions'
                             value={props.form_instructions}

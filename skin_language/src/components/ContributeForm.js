@@ -31,26 +31,25 @@ const skin_concern = [
     }
 ]
 
+const body_tags = [
+    {
+        'name': 'Face',
+        'value': 'face'
+    },
+    {
+        'name': 'Hands',
+        'value': 'hands'
+    },
+    {
+        'name': 'Lips',
+        'value': 'lips'
+    }
+]
+
 
 export default function ContributeForm(props) {
 
-    const body_tags = [
-        {
-            'name': 'Face',
-            'value': 'face'
-        },
-        {
-            'name': 'Hands',
-            'value': 'hands'
-        },
-        {
-            'name': 'Lips',
-            'value': 'lips'
-        }
-    ]
-
-
-
+    
     function renderBodyTags() {
         return body_tags.map(e => {
             return <MenuItem key={e.value}
@@ -114,6 +113,7 @@ export default function ContributeForm(props) {
                             variant='outlined'
                             color='secondary'
                             fullWidth
+                            multiline
                             label='Description'
                             name='form_description'
                             value={props.form_description}
@@ -138,6 +138,7 @@ export default function ContributeForm(props) {
                             variant='outlined'
                             color='secondary'
                             fullWidth
+                            multiline
                             label='Instructions'
                             name='form_instructions'
                             value={props.form_instructions}
@@ -153,6 +154,7 @@ export default function ContributeForm(props) {
                                 variant='outlined'
                                 color='secondary'
                                 fullWidth
+                                multiline
                                 label='Ingredients'
                                 name='form_ingredients'
                                 value={props.form_ingredients}
@@ -204,6 +206,7 @@ export default function ContributeForm(props) {
                                     value={props.form_body_tags}
                                     label="Body Tags"
                                     name="form_body_tags"
+                                    defaultValue=""
                                     onChange={props.updateFormField}
                                 >
                                     {renderBodyTags()}

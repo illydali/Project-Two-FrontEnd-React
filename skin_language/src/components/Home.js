@@ -173,7 +173,7 @@ export default function Home(props) {
                 </Box>
 
                 <Box sx={{ paddingTop: '1rem', display: { xs: 'row', sm: 'flex', md: 'flex', lg: 'flex' } }}>
-                    <FormControl fullWidth
+                    <FormControl fullWidth margin='normal'
                     // sx={{ flexDirection: { xs: "column", sm: "row" } }}
                     >
                         <InputLabel id="simple-select-label">Search via Body Tags</InputLabel>
@@ -188,7 +188,7 @@ export default function Home(props) {
                         </Select>
                     </FormControl>
 
-                    <FormControl fullWidth 
+                    <FormControl fullWidth margin='normal'
                     // sx={{ flexDirection: { xs: "column", sm: "row" } }}
                     >
                         

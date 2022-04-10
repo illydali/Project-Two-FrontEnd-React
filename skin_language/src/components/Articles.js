@@ -25,8 +25,8 @@ const initialValidationState = {
 }
 
 export default class Articles extends React.Component {
-    // BASE_API_URL = "https://beauty-from-home.herokuapp.com";
-    BASE_API_URL = "https://3000-illydali-projecttwoexpre-w0e88ixe9ed.ws-us39.gitpod.io"
+    BASE_API_URL = "https://beauty-from-home.herokuapp.com";
+    // BASE_API_URL = "https://3000-illydali-projecttwoexpre-w0e88ixe9ed.ws-us39.gitpod.io"
 
     state = {
         'active': 'home',
@@ -297,18 +297,6 @@ export default class Articles extends React.Component {
         });
     };
 
-    // filterSearch(data, searchItem) {
-    //     const result = data.filter(
-    //         (data) => 
-    //         data.title.toLowerCase().includes(searchItem)) ||
-    //         data.description.toLowerCase().includes(searchItem) ||
-    //         data.ingredients.toLowerCase().includes(searchItem)
-    //     this.setState({
-    //         searchItem: result
-    //     })
-
-    // }
-
     getSearch = async (e) => {
 
         let search = await axios.get(this.BASE_API_URL + "/articles/search", {
@@ -397,20 +385,6 @@ export default class Articles extends React.Component {
         let indexToReplace = this.state.allData.findIndex((data) => {
             return data._id === articleIdBeingEdited
         })
-        // let editedArticle = { ...this.state.allData[indexToReplace] }
-        // editedArticle = { ...newData }
-
-        // let cloned = [
-        //     // put in the tasks before the index to replace
-        //     ...this.state.allData.slice(0, indexToReplace),
-        //     editedArticle,
-        //     ...this.state.allData.slice(indexToReplace + 1)
-
-        // ]
-
-        // let indexToReplace = this.state.commentsData.findIndex((e) => {
-        //     return e._id === commentIdToUpdate
-        // })
 
         let editedArticle = {
             title: this.state.form_title,
@@ -640,8 +614,6 @@ export default class Articles extends React.Component {
                 </Box>
 
                 {this.renderContent()}
-
-                {/* <BottomNav /> */}
 
             </ThemeProvider >
 

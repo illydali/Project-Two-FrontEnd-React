@@ -11,11 +11,12 @@ export default function SimpleBottomNavigation() {
 
   return (
     <Box sx={{ 
-        width: 500,
+        width: 'auto',
         position: 'fixed',
         bottom: 0,
         backgroundColor:'white',
-        zIndeX: 100  }}>
+        zIndeX: 100  }}
+        >
       <BottomNavigation
         showLabels
         value={value}

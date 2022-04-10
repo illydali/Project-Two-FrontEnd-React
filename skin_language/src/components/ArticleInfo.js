@@ -34,6 +34,7 @@ export default function ArticleInfo(props) {
                                                 action={
                                                     <Button aria-label="delete" onClick={() => { props.handleDelete(a._id) }}>
                                                         <DeleteForeverIcon />
+                                                    
                                                     </Button>
                                                 }
                                             />
@@ -73,7 +74,7 @@ export default function ArticleInfo(props) {
                                                     )}
 
                                                 <Divider color='secondary'> Instructions </Divider>
-                                            
+
                                                 {
                                                     a.instructions.map((i, ind) =>
                                                         <Box sx={{
@@ -157,7 +158,7 @@ export default function ArticleInfo(props) {
                                                                 onClick={props.addComment}
                                                                 style={{ display: props.displayEditComment === false ? 'inline-block' : 'none' }}
                                                             >Add Comment</Button>
-                                                            <Button sx={{paddingRight: 1} }size="small" variant="contained"
+                                                            <Button sx={{ paddingRight: 1 }} size="small" variant="contained"
                                                                 onClick={props.updateComment}
                                                                 style={{ display: props.displayEditComment === true ? "inline-block" : "none" }}
                                                             >Save Changes</Button>
@@ -177,7 +178,7 @@ export default function ArticleInfo(props) {
                                                                     name="editCommentUsername"
                                                                     value={props.editCommentUsername}
                                                                     onChange={props.updateFormField}
-                                                                    
+
                                                                 />
                                                             </Form.Group>
 
@@ -216,17 +217,16 @@ export default function ArticleInfo(props) {
                                                                 onClick={props.cancelEdit}
                                                                 style={{ display: props.displayEditComment === true ? "inline-block" : "none" }}
                                                             >Cancel </Button>
-                                                    </>
+                                                        </>
                                                     }
-                                                    
+
                                                 </Form>
 
                                             </CardContent>
                                         </Card>
                                     )
                                 })}
-                        <CustomizedDialogs />
-                        
+
                     </Paper>
                 </ThemeProvider>
             </Container>

@@ -10,7 +10,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
 
-import { Box, TextField} from '@mui/material'
+import { Box, TextField } from '@mui/material'
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -76,7 +76,7 @@ export default function CustomizedDialogs(props) {
                 open={open}
             >
                 <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-                    Join in the fun
+                    Are you sure you want to delete?
                 </BootstrapDialogTitle>
                 <DialogContent dividers>
                     <Typography gutterBottom component={'span'}>
@@ -92,10 +92,28 @@ export default function CustomizedDialogs(props) {
 
                         <Button size="small"
                             onClick={props.addComment}>Post Comment</Button>
-                </Typography>
-
-            </DialogContent>
-        </BootstrapDialog>
-    </React.Fragment>
-  );
+                    </Typography>
+                    <DialogActions>
+                        <Button
+                            variant="contained"
+                            onClick={() => setOpen(false)}
+                            color="secondary"
+                        >
+                            No
+                        </Button>
+                        <Button
+                            variant="contained"
+                            onClick={() => {
+                                setOpen(false);
+                                
+                            }}
+                            color="default"
+                        >
+                            Yes
+                        </Button>
+                    </DialogActions>
+                </DialogContent>
+            </BootstrapDialog>
+        </React.Fragment>
+    );
 }
