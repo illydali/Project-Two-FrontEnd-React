@@ -2,19 +2,19 @@ import { React } from 'react'
 import moment from 'moment'
 import {
     Container, Paper, Typography, Card, CardHeader, CardMedia, CardContent, Button, CardActions,
-    Divider, Box, TextField, Input, Avatar
+    Divider, Box, Avatar
 } from '@mui/material'
 import Form from 'react-bootstrap/Form'
 
-import IconButton from '@mui/material/IconButton'
+
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import ModeEditOutlineTwoToneIcon from '@mui/icons-material/ModeEditOutlineTwoTone';
 import { ThemeProvider } from '@emotion/react';
 import MyTheme from './MyTheme';
-import CustomizedDialogs from './DialogModal';
+
 
 export default function ArticleInfo(props) {
-
+    
     return (
         <>
             <Container >
@@ -26,21 +26,26 @@ export default function ArticleInfo(props) {
                                 a => {
                                     return (
 
-                                        <Card key={a._id}>
+                                        <Card key={a._id} >
                                             <CardHeader
                                                 component="h1"
                                                 title={a.title}
                                                 date={a.date}
                                                 action={
-                                                    <Button aria-label="delete" onClick={() => { props.handleDelete(a._id) }}>
+                                                    <Button aria-label="delete"
+                                                        onClick={() => { props.handleDelete(a._id) }}
+                                                        >
                                                         <DeleteForeverIcon />
-                                                    
+
                                                     </Button>
+
                                                 }
+
                                             />
+
                                             <CardMedia
                                                 component='img'
-                                                height='194'
+                                                height='200'
                                                 image={a.image}
                                                 alt={a.title} />
                                             <CardContent>
@@ -56,6 +61,7 @@ export default function ArticleInfo(props) {
                                                     <Button size="small"
                                                         onClick={() => { props.editArticle(a._id) }}>
                                                         <ModeEditOutlineTwoToneIcon />
+
                                                     </Button>
 
                                                 </CardActions>
@@ -194,7 +200,7 @@ export default function ArticleInfo(props) {
                                                             </Form.Group>
                                                             <Form.Group className="mb-3" controlId="formBasicEmail">
 
-                                                                <Form.Control
+                                                                <Form.Control style={{ display: 'none' }}
                                                                     type="email"
                                                                     placeholder="Enter Email"
                                                                     name="editCommentEmail"

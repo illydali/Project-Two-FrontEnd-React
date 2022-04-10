@@ -1,16 +1,15 @@
-import React from "react";
+import {React} from "react";
 
 import {
-    Button, Container, TextField, Typography, FormControl, InputLabel,
-    MenuItem, Select, Box, RadioGroup, FormLabel, FormControlLabel, Radio,
-
+    Button, Container, TextField, Typography, FormControl, Box,
 } from '@mui/material'
-import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
-import MyTheme from './MyTheme';
-import { ThemeProvider } from '@emotion/react';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight'
+import MyTheme from './MyTheme'
+import { ThemeProvider } from '@emotion/react'
 
 export default function EditArticle(props) {
     const handleFocus = (event) => event.target.select();
+ 
     return (
         <>
             <Container>
@@ -66,7 +65,7 @@ export default function EditArticle(props) {
                         <br />
 
 
-                       <TextField
+                        <TextField
                             variant='outlined'
                             color='secondary'
                             fullWidth
@@ -74,26 +73,24 @@ export default function EditArticle(props) {
                             name='form_duration'
                             value={props.form_duration}
                             onChange={props.updateFormField}
-                        /> 
-                        
+                        />
+
                         <br />
 
                         <Box>
                             <Button
-                                sx={{ mt: 2 }}
+                                sx={{ mt: 1 }}
                                 variant="contained"
-                                color="secondary"
-                                endIcon={<DoubleArrowIcon />}
+                                endIcon={<ArrowRightIcon />}
                                 size="small"
                                 type="submit"
                                 onClick={
                                     props.updateArticle}
                             > Update </Button>
                             <Button
-                                sx={{ mt: 2 }}
+                                sx={{ mt: 1, ml: 1 }}
                                 variant="contained"
-                                color="secondary"
-                                endIcon={<DoubleArrowIcon />}
+                                endIcon={<ArrowRightIcon />}
                                 size="small"
                                 type="submit"
                                 onClick={
@@ -101,12 +98,8 @@ export default function EditArticle(props) {
                             > Cancel </Button>
                         </Box>
                     </FormControl>
-
                 </ThemeProvider>
-
             </Container >
-
-
         </>
     )
 }
