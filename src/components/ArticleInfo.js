@@ -47,7 +47,7 @@ export default function ArticleInfo(props) {
                                                 <Typography variant='body1' color='text.primary' component='main'>
                                                     The Why: {a.description}
                                                     <br />
-                                                    Time: {a.duration}
+                                                    Time: {a.duration} mins
                                                     <br />
                                                     Submitted: {moment(a.date).format('dddd, MMMM Do YYYY')}
 

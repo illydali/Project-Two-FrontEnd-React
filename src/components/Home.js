@@ -1,14 +1,13 @@
 import React from 'react'
-import Collage from './Collage'
 import {
     Typography, Box, Container, FormControl, MenuItem, Select, InputLabel, TextField, Button,
-    FormLabel, Grid, FormGroup, Card, CardHeader, CardMedia, CardContent,
-    Divider, CardActions, Checkbox, Paper, InputBase, IconButton
+    FormLabel, FormGroup, Card, CardHeader, CardMedia, CardContent
+    , CardActions, Checkbox, Paper, IconButton
 } from '@mui/material'
 
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import ReplayIcon from '@mui/icons-material/Replay';
-
+import Carousel from 'react-bootstrap/Carousel'
 const skin_concern = [
     {
         'type': 'Dry',
@@ -145,19 +144,38 @@ export default function Home(props) {
 
     return (
         <>
-            <Container>
+            <Container >
+            <Box marginTop={3}>
+                <Carousel indicators={false} >
+                    <Carousel.Item>
+                        <img
+                            className="d-block w-100"
+                            src='https://www.lofficielusa.com/_next/image?url=https%3A%2F%2Fwww.datocms-assets.com%2F39109%2F1615281388-1615215455766079-shutterstock763875802.jpg%3Fauto%3Dformat%252Ccompress%26cs%3Dsrgb&w=3840&q=75'
+                            alt="First slide"
+                        />
+                        
+                    </Carousel.Item>
+                    <Carousel.Item>
+                        <img
+                            className="d-block w-100"
+                            src='https://www.foreo.com/mysa/wp-content/uploads/sites/2/2019/10/Exfoliating-sensitive-skin-ingredients-e1570458651320.jpg'
+                            alt="Second slide"
+                        />
 
+                        
+                    </Carousel.Item>
+                    <Carousel.Item>
+                        <img
+                            className="d-block w-100"
+                            src='https://images.pexels.com/photos/4004119/pexels-photo-4004119.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+                            alt="Third slide"
+                        />
 
-                <Box marginTop={3}
-                    // hide hero image for now when in xs and sm size
-                    sx={{ display: { xs: 'none', sm: 'flex', md: 'flex', lg: 'flex' } }}>
-                    <img src='https://www.lofficielusa.com/_next/image?url=https%3A%2F%2Fwww.datocms-assets.com%2F39109%2F1615281388-1615215455766079-shutterstock763875802.jpg%3Fauto%3Dformat%252Ccompress%26cs%3Dsrgb&w=3840&q=75'
-                        alt=''
-                        height={450}
-                        width={"auto"} />
-                    {/* <Collage /> */}
-
+                        
+                    </Carousel.Item>
+                </Carousel>
                 </Box>
+                
                 <Box sx={{ paddingTop: '3rem' }}>
                     <TextField
 
@@ -189,21 +207,20 @@ export default function Home(props) {
                     </FormControl>
 
                     <FormControl fullWidth margin='normal'
-                    // sx={{ flexDirection: { xs: "column", sm: "row" } }}
                     >
-                        
-                            <InputLabel id="simple-select-label">Search via Duration</InputLabel>
-                            <Select
 
-                                value={props.duration}
-                                label="Duration"
-                                name="duration"
-                                onChange={props.updateFormField}
-                            >
-                                {renderDuration()}
+                        <InputLabel id="simple-select-label">Search via Duration</InputLabel>
+                        <Select
 
-                            </Select>
-                      
+                            value={props.duration}
+                            label="Duration"
+                            name="duration"
+                            onChange={props.updateFormField}
+                        >
+                            {renderDuration()}
+
+                        </Select>
+
                     </FormControl>
 
                     <FormControl component="fieldset" variant="standard" >
@@ -220,7 +237,6 @@ export default function Home(props) {
                 <Button
                     variant="contained"
                     color="secondary"
-
                     size="small"
                     type="submit"
                     onClick={props.getSearch}>
@@ -230,7 +246,6 @@ export default function Home(props) {
                 <IconButton
                     variant="contained"
                     color="secondary"
-
                     size="small"
                     type="submit"
                     onClick={props.refreshSearch}>
