@@ -137,7 +137,7 @@ export default function Home(props) {
             </>
         } else {
             return (
-                <Paper> </Paper>
+                <Paper> No results found </Paper>
             )
         }
     }
@@ -145,37 +145,37 @@ export default function Home(props) {
     return (
         <>
             <Container >
-            <Box marginTop={3}>
-                <Carousel indicators={false} >
-                    <Carousel.Item>
-                        <img
-                            className="d-block w-100"
-                            src='https://www.lofficielusa.com/_next/image?url=https%3A%2F%2Fwww.datocms-assets.com%2F39109%2F1615281388-1615215455766079-shutterstock763875802.jpg%3Fauto%3Dformat%252Ccompress%26cs%3Dsrgb&w=3840&q=75'
-                            alt="First slide"
-                        />
-                        
-                    </Carousel.Item>
-                    <Carousel.Item>
-                        <img
-                            className="d-block w-100"
-                            src='https://www.foreo.com/mysa/wp-content/uploads/sites/2/2019/10/Exfoliating-sensitive-skin-ingredients-e1570458651320.jpg'
-                            alt="Second slide"
-                        />
+                <Box marginTop={3}>
+                    <Carousel indicators={false} >
+                        <Carousel.Item>
+                            <img
+                                className="d-block w-100"
+                                src='https://www.lofficielusa.com/_next/image?url=https%3A%2F%2Fwww.datocms-assets.com%2F39109%2F1615281388-1615215455766079-shutterstock763875802.jpg%3Fauto%3Dformat%252Ccompress%26cs%3Dsrgb&w=3840&q=75'
+                                alt="First slide"
+                            />
 
-                        
-                    </Carousel.Item>
-                    <Carousel.Item>
-                        <img
-                            className="d-block w-100"
-                            src='https://images.pexels.com/photos/4004119/pexels-photo-4004119.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
-                            alt="Third slide"
-                        />
+                        </Carousel.Item>
+                        <Carousel.Item>
+                            <img
+                                className="d-block w-100"
+                                src='https://www.foreo.com/mysa/wp-content/uploads/sites/2/2019/10/Exfoliating-sensitive-skin-ingredients-e1570458651320.jpg'
+                                alt="Second slide"
+                            />
 
-                        
-                    </Carousel.Item>
-                </Carousel>
+
+                        </Carousel.Item>
+                        <Carousel.Item>
+                            <img
+                                className="d-block w-100"
+                                src='https://images.pexels.com/photos/4004119/pexels-photo-4004119.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+                                alt="Third slide"
+                            />
+
+
+                        </Carousel.Item>
+                    </Carousel>
                 </Box>
-                
+
                 <Box sx={{ paddingTop: '3rem' }}>
                     <TextField
 
@@ -222,35 +222,36 @@ export default function Home(props) {
                         </Select>
 
                     </FormControl>
-
-                    <FormControl component="fieldset" variant="standard" >
-                        <Box sx={{ m: 1 }}>
-                            <FormGroup sx={{ display: 'flex', flexDirection: "row" }} >
-                                <FormLabel id="checkbox-group-label" >SkinType: </FormLabel>
-                                <Box>
-                                    {renderSkinOption()}
-                                </Box>
-                            </FormGroup>
-                        </Box>
-                    </FormControl>
                 </Box>
-                <Button
-                    variant="contained"
-                    color="secondary"
-                    size="small"
-                    type="submit"
-                    onClick={props.getSearch}>
-                    <SearchOutlinedIcon />
-                </Button>
+                <FormControl component="fieldset" variant="standard" >
+                    <Box sx={{ m: 1 }}>
+                        <FormGroup sx={{ display: 'flex', flexDirection: "row" }} >
+                            <FormLabel id="checkbox-group-label" >SkinType: </FormLabel>
+                            <Box>
+                                {renderSkinOption()}
+                            </Box>
+                        </FormGroup>
+                    </Box>
+                </FormControl>
+                <Box>
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        size="small"
+                        type="submit"
+                        onClick={props.getSearch}>
+                        <SearchOutlinedIcon />
+                    </Button>
 
-                <IconButton
-                    variant="contained"
-                    color="secondary"
-                    size="small"
-                    type="submit"
-                    onClick={props.refreshSearch}>
-                    <ReplayIcon />
-                </IconButton>
+                    <IconButton
+                        variant="contained"
+                        color="secondary"
+                        size="small"
+                        type="submit"
+                        onClick={props.refreshSearch}>
+                        <ReplayIcon />
+                    </IconButton>
+                </Box>
 
                 {renderSearchResults()}
 

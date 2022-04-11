@@ -50,8 +50,8 @@ export default function Listing(props) {
                                                 alt={each.title} />
                                             <CardContent>
                                                 <Typography variant='body1' color='text.primary' component='section'>
-                                                <Box sx={{padding:'1rem'}}>The Why: {each.description}</Box>
-                                                    <Box sx={{padding:'1rem'}}>Time needed: {each.duration} mins</Box>
+                                                    <Box sx={{ padding: '1rem' }}>The Why: {each.description}</Box>
+                                                    <Box sx={{ padding: '1rem' }}>Time needed: {each.duration} mins</Box>
 
                                                 </Typography>
                                                 <CardActions>
