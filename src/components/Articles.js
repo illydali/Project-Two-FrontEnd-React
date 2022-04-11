@@ -9,7 +9,9 @@ import { ThemeProvider } from "@emotion/react"
 import ArticleInfo from "./ArticleInfo"
 import EditArticle from "./EditArticle"
 import { validTitle, validImageLink, validDescription, validTags, validIngredients, validDuration, validInstructions, validSkinConcern } from "./Validate"
-
+import FilterNoneIcon from '@mui/icons-material/FilterNone';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import IconButton from '@mui/material/IconButton';
 
 const initialValidationState = {
     'title': [true, ''],
@@ -306,7 +308,7 @@ export default class Articles extends React.Component {
 
     handleDelete = async (id) => {
         console.log(id)
-        
+
         await axios.delete(this.BASE_API_URL + '/article/' + id)
         let cloned = this.state.allData.slice();
         // modify the array
@@ -318,7 +320,7 @@ export default class Articles extends React.Component {
 
         this.setState({
             'active': "listing",
-            'allData' : cloned
+            'allData': cloned
         })
     }
 
@@ -590,25 +592,32 @@ export default class Articles extends React.Component {
 
             <ThemeProvider theme={MyTheme}>
                 <Box sx={{ flexGrow: 1 }}>
-                    <AppBar color="primary" position="static">
+                    <AppBar color="primary" position="static" component='nav'>
                         <Toolbar id='appBar'>
 
-                            {/* <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}> */}
-                            <Button
-                                color="info" onClick={() => this.setActive("listing")}>Browse</Button>
-                            {/* fix logo and home button */}
+                            <Box>
+                                <Button sx={{ display: { xs: 'none', sm: 'none', md: 'inline', lg: 'inline' } }}
+                                    color="info" onClick={() => this.setActive("listing")}>
+                                    Browse</Button>
+                                <IconButton onClick={() => this.setActive("addpost")}>
+                                    <FilterNoneIcon color='info' />
+                                </IconButton>
+                            </Box>
 
                             <Typography variant="h5" >
                                 <Button color="info" onClick={() => this.setActive("home")}>
                                     Skin.Lang
                                 </Button>
                             </Typography>
-
-                            <Button
-
-                                color="info" onClick={() => this.setActive("addpost")}>Create</Button>
-                            {/* </Typography> */}
-
+                            <Box>
+                                <Button
+                                    sx={{ display: { xs: 'none', sm: 'none', md: 'inline', lg: 'inline' } }}
+                                    color="info" onClick={() => this.setActive("addpost")}>
+                                    Create</Button>
+                                <IconButton onClick={() => this.setActive("addpost")}>
+                                    <AddCircleOutlineIcon color='info' />
+                                </IconButton>
+                            </Box>
                         </Toolbar>
                     </AppBar>
                 </Box>
