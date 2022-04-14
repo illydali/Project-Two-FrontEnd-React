@@ -599,13 +599,13 @@ export default class Articles extends React.Component {
                                 <Button sx={{ display: { xs: 'none', sm: 'none', md: 'inline', lg: 'inline' } }}
                                     color="info" onClick={() => this.setActive("listing")}>
                                     Browse</Button>
-                                <IconButton onClick={() => this.setActive("addpost")}>
+                                <IconButton onClick={() => this.setActive("listing")}>
                                     <FilterNoneIcon color='info' />
                                 </IconButton>
                             </Box>
 
                             <Typography variant="h5" >
-                                <Button color="info" onClick={() => this.setActive("home")}>
+                                <Button sx={{fontSize:'large', fontWeight: 'strong'}} color="info" onClick={() => this.setActive("home")}>
                                     Skin.Lang
                                 </Button>
                             </Typography>
