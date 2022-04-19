@@ -96,7 +96,7 @@ Font selected is [Roboto](https://fonts.google.com/specimen/Roboto)
 - React
 - MUI v5
 - React Bootstrap
-- Memory js for basic date-time conversions
+- Moment js for basic date-time conversions
 - NodeJs for backend API routes
 - Axios 
 - MongoDb for database info 
